@@ -1,0 +1,33 @@
+# Urban Air Quality Assistant - Image Credits & Attribution
+# All images are royalty-free, licensed under Unsplash License or Pixabay Content License
+
+Section                | Filename                   | Photographer / Creator     | Source / License               | Description
+--------------------------------------------------------------------------------------------------------------------------------------------
+Hero Banner            | hero-smog-skyline.webp     | SmartCity / Pixabay Contributors | SmartCity / Pixabay Royalty-Free | Dense air pollution and winter smog enveloping urban city skyline at sunrise
+Pollutant Cards        | pollutant-pm25.webp        | Patrick Hendry             | Unsplash (Free License)        | Fine particulate matter PM2.5 haze scattering sunlight in urban atmosphere
+Pollutant Cards        | pollutant-pm10.webp        | Ricardo Gomez Angel        | Unsplash (Free License)        | Coarse particulate dust PM10 from urban road surfaces and excavation
+Pollutant Cards        | pollutant-no2.webp         | Denys Nevozhai             | Unsplash (Free License)        | Dense city highway traffic generating nitrogen dioxide (NO2) tailpipe emissions
+Pollutant Cards        | pollutant-so2.webp         | Marten Bjork               | Unsplash (Free License)        | Industrial smokestacks emitting sulfur dioxide (SO2) into the sky
+Pollutant Cards        | pollutant-co.webp          | Nuno Alberto               | Unsplash (Free License)        | Heavy urban vehicle congestion producing toxic carbon monoxide (CO) gas
+Pollutant Cards        | pollutant-o3.webp          | Aleksandar Pasaric         | Unsplash (Free License)        | Photochemical summer smog creating ground-level ozone (O3) over city towers
+Causes of Pollution    | cause-traffic.webp         | Denys Nevozhai             | Unsplash (Free License)        | Urban rush hour bumper-to-bumper vehicle traffic emitting tailpipe fumes
+Causes of Pollution    | cause-industry.webp        | Ella Ivanescu              | Unsplash (Free License)        | Heavy industrial manufacturing plant discharging particulate emissions and gases
+Causes of Pollution    | cause-burning.webp         | Tomasz Krawczyk            | Unsplash (Free License)        | Agricultural stubble burning and open biomass waste combustion causing smoke plume
+Causes of Pollution    | cause-construction.webp    | Scott Blake                | Unsplash (Free License)        | Major urban construction site machinery generating airborne fugitive dust
+Health Tips            | tip-masks.webp             | Mika Baumeister            | Unsplash (Free License)        | Certified N95 / FFP2 particulate respirator mask for outdoor pollution defense
+Health Tips            | tip-indoor-air.webp        | Huy Nguyen                 | Unsplash (Free License)        | Modern residential living space with active HEPA air filtration and indoor purifying plants
+Health Tips            | tip-exercise.webp          | Jenny Hill                 | Unsplash (Free License)        | Person jogging safely outdoors in a fresh green park during low AQI periods
+Health Tips            | tip-sensitive-groups.webp  | CDC / Unsplash             | Unsplash (Free License)        | Vulnerable populations including children and elderly walking in clean environment
+AQI Levels             | aqi-good.webp              | Pedro Lastra               | Unsplash (Free License)        | Crisp clear blue sky over an urban cityscape indicating Good air quality (AQI 0-50)
+AQI Levels             | aqi-moderate.webp          | Benjamin Davies            | Unsplash (Free License)        | Mild atmospheric haze across urban skyline indicating Moderate air quality (AQI 51-100)
+AQI Levels             | aqi-unhealthy.webp         | Patrick Hendry             | Unsplash (Free License)        | Thick smog obscuring downtown buildings during Unhealthy air conditions (AQI 151-200)
+AQI Levels             | aqi-hazardous.webp         | Aleksandar Pasaric         | Pexels / Unsplash              | Severe hazardous winter smog and dark red haze blanketing city (AQI 301+)
+City Cards             | city-delhi.webp            | Sylwia Bartyzel            | Unsplash (Free License)        | Delhi skyline and India Gate monument in winter atmospheric conditions
+City Cards             | city-newyork.webp          | Alexander Rotker           | Unsplash (Free License)        | New York City Manhattan skyscrapers and skyline
+City Cards             | city-london.webp           | Benjamin Davies            | Unsplash (Free License)        | London skyline showing Tower Bridge and the River Thames
+City Cards             | city-losangeles.webp       | Sterling Davis             | Unsplash (Free License)        | Downtown Los Angeles skyscrapers with palm trees and freeway
+City Cards             | city-tokyo.webp            | Su San Lee                 | Unsplash (Free License)        | Tokyo skyline featuring Tokyo Tower and vibrant metropolis panorama
+City Cards             | city-paris.webp            | Anthony DELANOIX           | Unsplash (Free License)        | Paris skyline featuring the iconic Eiffel Tower and Seine river basin
+City Cards             | city-mumbai.webp           | Aditya Chache              | Unsplash (Free License)        | Mumbai coastal skyline and Bandra-Worli Sea Link crossing the bay
+City Cards             | city-surat.webp            | Bhargav Joshi              | Unsplash (Free License)        | Surat city Tapi riverfront and modern urban architecture
+City Cards             | city-ahmedabad.webp        | Dharmesh Patel             | Unsplash (Free License)        | Ahmedabad Sabarmati Riverfront skyline and promenade

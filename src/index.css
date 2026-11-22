@@ -1,0 +1,281 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ==========================================================================
+     LIGHT MODE THEME TOKENS (WCAG AA Compliant)
+     ========================================================================== */
+  --color-bg-base: #FFFFFF;
+  --color-bg-surface: #F6F8FA;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4B5563;
+  --color-border: #E5E7EB;
+  --color-placeholder: #6B7280;
+
+  /* EPA/WHO AQI Standard Color Scale */
+  --aqi-good: #10b981;
+  --aqi-moderate: #f59e0b;
+  --aqi-sensitive: #ea580c;
+  --aqi-unhealthy: #dc2626;
+  --aqi-very-unhealthy: #7c3aed;
+  --aqi-hazardous: #7f1d1d;
+
+  /* AQI BADGE TOKENS (High-Contrast AA: Dark text on yellow/green, White on orange/red/purple/maroon) */
+  --badge-good-bg: #d1fae5;
+  --badge-good-text: #064e3b;
+  --badge-good-border: #a7f3d0;
+
+  --badge-moderate-bg: #fef3c7;
+  --badge-moderate-text: #78350f;
+  --badge-moderate-border: #fde68a;
+
+  --badge-sensitive-bg: #ea580c;
+  --badge-sensitive-text: #ffffff;
+  --badge-sensitive-border: #c2410c;
+
+  --badge-unhealthy-bg: #dc2626;
+  --badge-unhealthy-text: #ffffff;
+  --badge-unhealthy-border: #b91c1c;
+
+  --badge-very-unhealthy-bg: #7c3aed;
+  --badge-very-unhealthy-text: #ffffff;
+  --badge-very-unhealthy-border: #6d28d9;
+
+  --badge-hazardous-bg: #7f1d1d;
+  --badge-hazardous-text: #ffffff;
+  --badge-hazardous-border: #991b1b;
+
+  /* Accents & Highlights */
+  --accent-primary: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-light: #eff6ff;
+  --steel-blue: #3b82f6;
+  --indigo-velvet: #4f46e5;
+  --midnight-violet: #1f2937;
+  --frozen-water: #e0f2fe;
+  --honeydew: #f0fdf4;
+}
+
+.dark {
+  /* ==========================================================================
+     DARK MODE THEME TOKENS (WCAG AA Compliant)
+     ========================================================================== */
+  --color-bg-base: #0B0F14;
+  --color-bg-surface: #121821;
+  --color-text-primary: #F3F4F6;
+  --color-text-secondary: #A1A9B5;
+  --color-border: #263040;
+  --color-placeholder: #9CA3AF;
+
+  /* AQI BADGE TOKENS (Dark Mode Adjusted) */
+  --badge-good-bg: #064e3b;
+  --badge-good-text: #a7f3d0;
+  --badge-good-border: #047857;
+
+  --badge-moderate-bg: #78350f;
+  --badge-moderate-text: #fde68a;
+  --badge-moderate-border: #b45309;
+
+  --badge-sensitive-bg: #9a3412;
+  --badge-sensitive-text: #ffedd5;
+  --badge-sensitive-border: #c2410c;
+
+  --badge-unhealthy-bg: #991b1b;
+  --badge-unhealthy-text: #fee2e2;
+  --badge-unhealthy-border: #b91c1c;
+
+  --badge-very-unhealthy-bg: #5b21b6;
+  --badge-very-unhealthy-text: #ede9fe;
+  --badge-very-unhealthy-border: #6d28d9;
+
+  --badge-hazardous-bg: #450a0a;
+  --badge-hazardous-text: #fecaca;
+  --badge-hazardous-border: #7f1d1d;
+
+  /* Accents & Highlights Dark */
+  --accent-primary: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-light: #1e293b;
+  --steel-blue: #60a5fa;
+  --indigo-velvet: #818cf8;
+  --midnight-violet: #0f172a;
+  --frozen-water: #0369a1;
+  --honeydew: #14532d;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* 16px minimum base font */
+  }
+
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    overflow-x: hidden;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  p {
+    line-height: 1.6;
+    max-width: 65ch;
+  }
+
+  ::selection {
+    background-color: #3b82f6;
+    color: #ffffff;
+  }
+}
+
+/* Glassmorphism & Surface Cards */
+.clean-card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              background-color 0.3s ease;
+}
+
+.clean-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .clean-card {
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.45);
+}
+
+.dark .clean-card:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 10px 32px -4px rgba(0, 0, 0, 0.6);
+}
+
+/* Text on images shadow */
+.image-text-overlay {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+/* High-Contrast AQI Badge Classes */
+.badge-aqi-good {
+  background-color: var(--badge-good-bg) !important;
+  color: var(--badge-good-text) !important;
+  border: 1px solid var(--badge-good-border) !important;
+}
+
+.badge-aqi-moderate {
+  background-color: var(--badge-moderate-bg) !important;
+  color: var(--badge-moderate-text) !important;
+  border: 1px solid var(--badge-moderate-border) !important;
+}
+
+.badge-aqi-sensitive {
+  background-color: var(--badge-sensitive-bg) !important;
+  color: var(--badge-sensitive-text) !important;
+  border: 1px solid var(--badge-sensitive-border) !important;
+}
+
+.badge-aqi-unhealthy {
+  background-color: var(--badge-unhealthy-bg) !important;
+  color: var(--badge-unhealthy-text) !important;
+  border: 1px solid var(--badge-unhealthy-border) !important;
+}
+
+.badge-aqi-very-unhealthy {
+  background-color: var(--badge-very-unhealthy-bg) !important;
+  color: var(--badge-very-unhealthy-text) !important;
+  border: 1px solid var(--badge-very-unhealthy-border) !important;
+}
+
+.badge-aqi-hazardous {
+  background-color: var(--badge-hazardous-bg) !important;
+  color: var(--badge-hazardous-text) !important;
+  border: 1px solid var(--badge-hazardous-border) !important;
+}
+
+/* Floating particles in Hero */
+.particle-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: floatParticle 8s infinite ease-in-out;
+}
+
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-20px) translateX(12px);
+    opacity: 0.45;
+  }
+}
+
+/* Gauge SVG animations */
+.gauge-arc {
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.6s ease;
+}
+
+/* Standard tap target size */
+button, a, input, select {
+  min-height: 44px;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom Scrollbars adhering to theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}

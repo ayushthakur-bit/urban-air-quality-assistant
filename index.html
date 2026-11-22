@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="UrbanAir Assistant: Real-time air quality index (AQI) tracking, 6 criteria pollutant breakdowns (PM2.5, PM10, NO2, SO2, CO, O3), 24-hour trends, 7-day forecasts, and actionable health advice for your city." />
+    <meta name="theme-color" content="#0B0F14" />
+    <title>UrbanAir | Real-Time Urban Air Quality Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var queryTheme = params.get('theme');
+          if (queryTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            return;
+          } else if (queryTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            return;
+          }
+          var saved = localStorage.getItem('URBANAIR_THEME');
+          if (saved === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="antialiased selection:bg-[#3b82f6] selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
