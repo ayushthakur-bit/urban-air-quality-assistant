@@ -11,7 +11,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn"
       role="dialog"
       aria-modal="true"
@@ -25,7 +25,10 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <Info className="w-5 h-5" />
             </div>
             <div>
-              <h2 id="about-modal-title" className="text-xl font-bold text-[var(--color-text-primary)]">
+              <h2
+                id="about-modal-title"
+                className="text-xl font-bold text-[var(--color-text-primary)]"
+              >
                 About the Air Quality Index (AQI)
               </h2>
               <p className="text-xs text-[var(--color-text-secondary)]">
@@ -50,7 +53,10 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               What is the Air Quality Index?
             </h3>
             <p className="text-[var(--color-text-secondary)] leading-relaxed">
-              The Air Quality Index (AQI) is an international standard scale developed by environmental protection agencies to report daily air quality. It communicates how clean or polluted ambient air is, and what associated health effects might be of concern for you and your family.
+              The Air Quality Index (AQI) is an international standard scale developed by
+              environmental protection agencies to report daily air quality. It communicates how
+              clean or polluted ambient air is, and what associated health effects might be of
+              concern for you and your family.
             </p>
           </div>
 
@@ -61,12 +67,12 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </h3>
             <div className="space-y-2.5">
               {AQI_SCALE_INFO.map((item) => (
-                <div 
+                <div
                   key={item.category}
                   className="p-3.5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-base)] flex flex-col sm:flex-row sm:items-center justify-between gap-2 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <span 
+                    <span
                       className="w-4 h-4 rounded-full shrink-0 shadow-sm"
                       style={{ backgroundColor: item.hex }}
                     />
@@ -79,7 +85,9 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                       </span>
                     </div>
                   </div>
-                  <span className={`text-xs font-bold font-mono shrink-0 px-3 py-1 rounded-xl shadow-sm self-start sm:self-center ${getAQIBadgeClasses(item.category)}`}>
+                  <span
+                    className={`text-xs font-bold font-mono shrink-0 px-3 py-1 rounded-xl shadow-sm self-start sm:self-center ${getAQIBadgeClasses(item.category)}`}
+                  >
                     AQI {item.range}
                   </span>
                 </div>
@@ -93,7 +101,9 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               How is Overall AQI Calculated?
             </h4>
             <p className="leading-relaxed">
-              Air quality stations calculate individual sub-indices for PM2.5, PM10, NO2, SO2, CO, and O3 over standard averaging intervals. The overall city AQI is typically dictated by the single highest sub-index at that hour ("the driving pollutant").
+              Air quality stations calculate individual sub-indices for PM2.5, PM10, NO2, SO2, CO,
+              and O3 over standard averaging intervals. The overall city AQI is typically dictated
+              by the single highest sub-index at that hour ("the driving pollutant").
             </p>
           </div>
 
@@ -101,7 +111,9 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-900 dark:text-emerald-200 flex items-start gap-2.5">
             <ShieldCheck className="w-5 h-5 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
             <p className="leading-relaxed">
-              <strong>Medical Disclaimer:</strong> This application calculates indices adhering to EPA and WHO 2021 air quality guidelines for personal awareness and preventive planning. Always consult healthcare professionals for personalized medical management.
+              <strong>Medical Disclaimer:</strong> This application calculates indices adhering to
+              EPA and WHO 2021 air quality guidelines for personal awareness and preventive
+              planning. Always consult healthcare professionals for personalized medical management.
             </p>
           </div>
         </div>

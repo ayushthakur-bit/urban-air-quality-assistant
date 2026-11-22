@@ -2,7 +2,11 @@ import React from 'react';
 
 export const SkeletonLoader: React.FC = () => {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6 animate-pulse" aria-hidden="true">
+    <div 
+      className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6 animate-pulse" 
+      role="status"
+      aria-label="Loading air quality telemetry"
+    >
       {/* Live AQI Card Skeleton */}
       <div className="clean-card p-8 rounded-3xl space-y-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">

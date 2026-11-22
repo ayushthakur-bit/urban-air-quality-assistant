@@ -3,10 +3,13 @@ import { SmogAIService } from '../services/aiService';
 import { CITIES_DATABASE } from '../data/mockData';
 
 describe('AeroBot Smog AI Intelligence Reasoning Engine', () => {
-  const delhi = CITIES_DATABASE.find(c => c.id === 'delhi')!;
+  const delhi = CITIES_DATABASE.find((c) => c.id === 'delhi')!;
 
   it('generates thermal inversion & ventilation breakup window guidance when queried', async () => {
-    const response = await SmogAIService.askAeroBot('When is the safe window to open windows?', delhi);
+    const response = await SmogAIService.askAeroBot(
+      'When is the safe window to open windows?',
+      delhi
+    );
     expect(response.content).toContain('13:00 and 15:00');
     expect(response.content).toContain('Breakup Window');
     expect(response.exposureSavedPct).toBe(68);
@@ -29,7 +32,10 @@ describe('AeroBot Smog AI Intelligence Reasoning Engine', () => {
   });
 
   it('suggests low-emission daily routines and anti-idling alternatives', async () => {
-    const response = await SmogAIService.askAeroBot('Suggest low-emission routines for commute', delhi);
+    const response = await SmogAIService.askAeroBot(
+      'Suggest low-emission routines for commute',
+      delhi
+    );
     expect(response.content).toContain('Low-Emission Daily Routine');
     expect(response.content).toContain('Anti-Idling');
     expect(response.content).toContain('CO2');

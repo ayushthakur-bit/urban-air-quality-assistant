@@ -128,16 +128,19 @@ Guidelines:
     };
   }
 
-  private static generateLocalReasoningResponse(
-    prompt: string,
-    city: CityAirData
-  ): AIResponse {
+  private static generateLocalReasoningResponse(prompt: string, city: CityAirData): AIResponse {
     const q = prompt.toLowerCase();
     const aqi = city.currentAqi;
     const isHighSmog = aqi > 150;
 
     // Topic 1: Winter Smog & Temperature Inversion / Ventilation
-    if (q.includes('inversion') || q.includes('window') || q.includes('ventilat') || q.includes('breakup') || q.includes('morning')) {
+    if (
+      q.includes('inversion') ||
+      q.includes('window') ||
+      q.includes('ventilat') ||
+      q.includes('breakup') ||
+      q.includes('morning')
+    ) {
       return {
         content: `### 🌡️ Winter Thermal Inversion & Ventilation Protocol for **${city.name}**
 
@@ -160,8 +163,19 @@ During winter months in urban centers like **${city.name}**, cooler dense air is
     }
 
     // Topic 2: Masks & Personal Protective Equipment
-    if (q.includes('mask') || q.includes('respirator') || q.includes('n95') || q.includes('cloth') || q.includes('face')) {
-      const maskType = aqi > 200 ? 'Certified N95 / FFP2 / KN95 with headbands' : (aqi > 100 ? 'N95 Respirator or tight-fitting KN95' : 'Optional mask for sensitive individuals');
+    if (
+      q.includes('mask') ||
+      q.includes('respirator') ||
+      q.includes('n95') ||
+      q.includes('cloth') ||
+      q.includes('face')
+    ) {
+      const maskType =
+        aqi > 200
+          ? 'Certified N95 / FFP2 / KN95 with headbands'
+          : aqi > 100
+            ? 'N95 Respirator or tight-fitting KN95'
+            : 'Optional mask for sensitive individuals';
       return {
         content: `### 🛡️ Respiratory Protection Analysis for **${city.name}** (AQI: ${aqi})
 
@@ -185,7 +199,15 @@ Current fine particulate concentration (PM2.5) is **${city.pollutants.pm25.value
     }
 
     // Topic 3: Indoor Air Hacks & DIY Purifiers (Corsi-Rosenthal)
-    if (q.includes('purifier') || q.includes('diy') || q.includes('filter') || q.includes('corsi') || q.includes('indoor') || q.includes('hack') || q.includes('hepa')) {
+    if (
+      q.includes('purifier') ||
+      q.includes('diy') ||
+      q.includes('filter') ||
+      q.includes('corsi') ||
+      q.includes('indoor') ||
+      q.includes('hack') ||
+      q.includes('hepa')
+    ) {
       return {
         content: `### 💨 Indoor Air Quality Hacks & Corsi-Rosenthal Purifier Guide
 
@@ -203,7 +225,7 @@ When outdoor AQI is **${aqi} (${city.category})**, outdoor pollutants rapidly in
 **Direct Impact:**
 - Implementing a sealed bedroom zone with continuous filtration lowers indoor PM2.5 from **${city.pollutants.pm25.value} µg/m³** to under **15 µg/m³** (**90%+ exposure reduction**).`,
         exposureSavedPct: 90,
-        pm25Avoided: Number((city.pollutants.pm25.value * 0.90).toFixed(1)),
+        pm25Avoided: Number((city.pollutants.pm25.value * 0.9).toFixed(1)),
         suggestions: [
           'Can indoor plants remove PM2.5 or only VOCs?',
           'When is it safe to ventilate today?',
@@ -213,7 +235,15 @@ When outdoor AQI is **${aqi} (${city.category})**, outdoor pollutants rapidly in
     }
 
     // Topic 4: Low-Emission Daily Routines & Sustainable Alternatives
-    if (q.includes('routine') || q.includes('emission') || q.includes('transit') || q.includes('commute') || q.includes('lifestyle') || q.includes('car') || q.includes('sustainable')) {
+    if (
+      q.includes('routine') ||
+      q.includes('emission') ||
+      q.includes('transit') ||
+      q.includes('commute') ||
+      q.includes('lifestyle') ||
+      q.includes('car') ||
+      q.includes('sustainable')
+    ) {
       return {
         content: `### 🌱 Low-Emission Daily Routine & Sustainable Choices for **${city.name}**
 

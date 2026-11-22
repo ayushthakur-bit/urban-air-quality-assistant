@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
-import { 
-  AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine 
+import {
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine
 } from 'recharts';
 import { CityAirData } from '../types';
 import { Calendar, Clock, TrendingUp } from 'lucide-react';
-import { getAQIColorHex } from '../data/mockData';
+import { getAQIColorHex } from '../constants/aqi';
 
 interface AirQualityChartsProps {
   city: CityAirData;
   isDarkMode?: boolean;
 }
 
+/**
+ * Air Quality Charts component displaying responsive 24-hour diurnal trends
+ * and extended 7-day projections using Recharts.
+ */
 export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDarkMode }) => {
   const [activeChartTab, setActiveChartTab] = useState<'24h' | '7day'>('24h');
 
@@ -19,8 +31,8 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
   const axisColor = isDarkMode ? '#A1A9B5' : '#4B5563';
 
   return (
-    <section 
-      id="forecast" 
+    <section
+      id="forecast"
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 scroll-mt-24"
       aria-label="Air Quality Forecast and Historical Trends"
     >
@@ -38,7 +50,7 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
           </div>
 
           {/* Tab Switcher */}
-          <div 
+          <div
             className="flex items-center bg-[var(--color-bg-base)] p-1 rounded-2xl border border-[var(--color-border)] shrink-0 self-start sm:self-auto"
             role="tablist"
           >
@@ -79,28 +91,31 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
               {/* 24-Hour Area Chart */}
               <div className="h-72 sm:h-80 w-full" aria-label="24-hour hourly AQI trend chart">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={city.hourlyTrend} margin={{ top: 15, right: 10, left: -20, bottom: 0 }}>
+                  <AreaChart
+                    data={city.hourlyTrend}
+                    margin={{ top: 15, right: 10, left: -20, bottom: 0 }}
+                  >
                     <defs>
                       <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={currentColor} stopOpacity={0.5}/>
-                        <stop offset="95%" stopColor={currentColor} stopOpacity={0.0}/>
+                        <stop offset="5%" stopColor={currentColor} stopOpacity={0.5} />
+                        <stop offset="95%" stopColor={currentColor} stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
-                    <XAxis 
-                      dataKey="time" 
-                      stroke={axisColor} 
-                      fontSize={12} 
+                    <XAxis
+                      dataKey="time"
+                      stroke={axisColor}
+                      fontSize={12}
                       fontWeight={500}
-                      tickLine={false} 
+                      tickLine={false}
                     />
-                    <YAxis 
-                      stroke={axisColor} 
-                      fontSize={12} 
+                    <YAxis
+                      stroke={axisColor}
+                      fontSize={12}
                       fontWeight={500}
                       tickLine={false}
                       domain={[0, 'dataMax + 40']}
                     />
-                    <Tooltip 
+                    <Tooltip
                       content={({ active, payload }) => {
                         if (active && payload && payload.length) {
                           const data = payload[0].payload;
@@ -111,15 +126,23 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
                               </span>
                               <div className="flex justify-between gap-4 pt-1">
                                 <span className="text-[var(--color-text-secondary)]">AQI:</span>
-                                <span className="font-bold text-[var(--color-text-primary)]">{data.aqi}</span>
+                                <span className="font-bold text-[var(--color-text-primary)]">
+                                  {data.aqi}
+                                </span>
                               </div>
                               <div className="flex justify-between gap-4">
                                 <span className="text-[var(--color-text-secondary)]">PM2.5:</span>
-                                <span className="font-semibold text-[var(--color-text-primary)]">{data.pm25} µg/m³</span>
+                                <span className="font-semibold text-[var(--color-text-primary)]">
+                                  {data.pm25} µg/m³
+                                </span>
                               </div>
                               <div className="flex justify-between gap-4">
-                                <span className="text-[var(--color-text-secondary)]">Temperature:</span>
-                                <span className="font-semibold text-[var(--color-text-primary)]">{data.temp}°C</span>
+                                <span className="text-[var(--color-text-secondary)]">
+                                  Temperature:
+                                </span>
+                                <span className="font-semibold text-[var(--color-text-primary)]">
+                                  {data.temp}°C
+                                </span>
                               </div>
                             </div>
                           );
@@ -127,16 +150,41 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
                         return null;
                       }}
                     />
-                    <ReferenceLine y={50} stroke="#10b981" strokeDasharray="3 3" label={{ value: 'Good (50)', fill: '#10b981', fontSize: 11, fontWeight: 600 }} />
-                    <ReferenceLine y={100} stroke="#f59e0b" strokeDasharray="3 3" label={{ value: 'Moderate (100)', fill: '#f59e0b', fontSize: 11, fontWeight: 600 }} />
-                    <ReferenceLine y={150} stroke="#ea580c" strokeDasharray="3 3" label={{ value: 'Unhealthy (150)', fill: '#ea580c', fontSize: 11, fontWeight: 600 }} />
-                    <Area 
-                      type="monotone" 
-                      dataKey="aqi" 
-                      stroke={currentColor} 
-                      strokeWidth={3} 
-                      fillOpacity={1} 
-                      fill="url(#chartGradient)" 
+                    <ReferenceLine
+                      y={50}
+                      stroke="#10b981"
+                      strokeDasharray="3 3"
+                      label={{ value: 'Good (50)', fill: '#10b981', fontSize: 11, fontWeight: 600 }}
+                    />
+                    <ReferenceLine
+                      y={100}
+                      stroke="#f59e0b"
+                      strokeDasharray="3 3"
+                      label={{
+                        value: 'Moderate (100)',
+                        fill: '#f59e0b',
+                        fontSize: 11,
+                        fontWeight: 600
+                      }}
+                    />
+                    <ReferenceLine
+                      y={150}
+                      stroke="#ea580c"
+                      strokeDasharray="3 3"
+                      label={{
+                        value: 'Unhealthy (150)',
+                        fill: '#ea580c',
+                        fontSize: 11,
+                        fontWeight: 600
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="aqi"
+                      stroke={currentColor}
+                      strokeWidth={3}
+                      fillOpacity={1}
+                      fill="url(#chartGradient)"
                     />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -167,22 +215,25 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
               {/* 7-Day Forecast Bar Chart */}
               <div className="h-72 sm:h-80 w-full" aria-label="7-day daily forecast AQI chart">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={city.dailyForecast} margin={{ top: 15, right: 10, left: -20, bottom: 0 }}>
-                    <XAxis 
-                      dataKey="day" 
-                      stroke={axisColor} 
-                      fontSize={12} 
+                  <BarChart
+                    data={city.dailyForecast}
+                    margin={{ top: 15, right: 10, left: -20, bottom: 0 }}
+                  >
+                    <XAxis
+                      dataKey="day"
+                      stroke={axisColor}
+                      fontSize={12}
                       fontWeight={500}
-                      tickLine={false} 
+                      tickLine={false}
                     />
-                    <YAxis 
-                      stroke={axisColor} 
-                      fontSize={12} 
+                    <YAxis
+                      stroke={axisColor}
+                      fontSize={12}
                       fontWeight={500}
                       tickLine={false}
                       domain={[0, 'dataMax + 40']}
                     />
-                    <Tooltip 
+                    <Tooltip
                       content={({ active, payload }) => {
                         if (active && payload && payload.length) {
                           const data = payload[0].payload;
@@ -192,16 +243,26 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
                                 {data.day}, {data.date}
                               </span>
                               <div className="flex justify-between gap-4 pt-1">
-                                <span className="text-[var(--color-text-secondary)]">Forecast AQI:</span>
-                                <span className="font-bold text-[var(--color-text-primary)]">{data.aqi}</span>
+                                <span className="text-[var(--color-text-secondary)]">
+                                  Forecast AQI:
+                                </span>
+                                <span className="font-bold text-[var(--color-text-primary)]">
+                                  {data.aqi}
+                                </span>
                               </div>
                               <div className="flex justify-between gap-4">
-                                <span className="text-[var(--color-text-secondary)]">Category:</span>
-                                <span className="font-bold text-[var(--color-text-primary)]">{data.category}</span>
+                                <span className="text-[var(--color-text-secondary)]">
+                                  Category:
+                                </span>
+                                <span className="font-bold text-[var(--color-text-primary)]">
+                                  {data.category}
+                                </span>
                               </div>
                               <div className="flex justify-between gap-4">
                                 <span className="text-[var(--color-text-secondary)]">Range:</span>
-                                <span className="font-semibold text-[var(--color-text-primary)]">{data.minAqi} – {data.maxAqi} AQI</span>
+                                <span className="font-semibold text-[var(--color-text-primary)]">
+                                  {data.minAqi} – {data.maxAqi} AQI
+                                </span>
                               </div>
                             </div>
                           );
@@ -209,11 +270,7 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
                         return null;
                       }}
                     />
-                    <Bar 
-                      dataKey="aqi" 
-                      radius={[8, 8, 0, 0]}
-                      fill={currentColor}
-                    />
+                    <Bar dataKey="aqi" radius={[8, 8, 0, 0]} fill={currentColor} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -223,7 +280,7 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
                 {city.dailyForecast.map((day) => {
                   const dayColor = getAQIColorHex(day.aqi);
                   return (
-                    <div 
+                    <div
                       key={day.day}
                       className="p-2.5 rounded-xl bg-[var(--color-bg-base)] border border-[var(--color-border)] text-center"
                     >

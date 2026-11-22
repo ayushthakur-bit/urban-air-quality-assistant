@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Thermometer, Droplets, Wind, Clock, MapPin, ShieldAlert } from 'lucide-react';
 import { CityAirData } from '../types';
-import { getAQIColorHex, getAQIBadgeClasses } from '../data/mockData';
+import { getAQIColorHex, getAQIBadgeClasses, GAUGE_CONFIG } from '../constants/aqi';
 
 interface LiveAQICardProps {
   city: CityAirData;
 }
 
+/**
+ * Live AQI Card displaying the primary Air Quality Index metric,
+ * real-time semicircular color gauge, atmospheric weather telemetry,
+ * and high-contrast category badges.
+ */
 export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
   const [displayedAqi, setDisplayedAqi] = useState(0);
 
@@ -37,24 +42,20 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
 
   const currentColor = getAQIColorHex(city.currentAqi);
 
-  // Semicircular Gauge SVG Arc Calculation
-  // Radius = 90. Circumference of semicircle = PI * R ≈ 282.74
-  const radius = 90;
-  const strokeWidth = 14;
-  const circumference = Math.PI * radius; // 282.74
-  // Clamp AQI to max 500 for full gauge deflection
-  const clampedAqi = Math.min(Math.max(city.currentAqi, 0), 500);
-  const strokeDashoffset = circumference - (clampedAqi / 500) * circumference;
+  // Semicircular Gauge SVG Arc Calculation using named geometry constants
+  const clampedAqi = Math.min(Math.max(city.currentAqi, 0), GAUGE_CONFIG.MAX_AQI);
+  const strokeDashoffset =
+    GAUGE_CONFIG.CIRCUMFERENCE - (clampedAqi / GAUGE_CONFIG.MAX_AQI) * GAUGE_CONFIG.CIRCUMFERENCE;
 
   return (
-    <section 
-      id="live-aqi" 
+    <section
+      id="live-aqi"
       className="max-w-4xl mx-auto px-4 sm:px-6 scroll-mt-24"
       aria-label="Live Air Quality Index Card"
     >
       <div className="clean-card p-6 sm:p-8 md:p-10 relative overflow-hidden">
         {/* Soft Background Accent Glow matching current AQI */}
-        <div 
+        <div
           className="absolute -top-20 -right-20 w-80 h-80 rounded-full blur-3xl opacity-15 pointer-events-none transition-colors duration-700"
           style={{ backgroundColor: currentColor }}
           aria-hidden="true"
@@ -79,7 +80,7 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
                     {city.name}, {city.country}
                   </h3>
                 </div>
-                <div 
+                <div
                   className={`px-3 py-1 rounded-xl text-xs font-mono font-bold shadow-lg backdrop-blur-md ${getAQIBadgeClasses(city.category)}`}
                 >
                   AQI {city.currentAqi}
@@ -92,8 +93,8 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
           {/* Left Column: Semicircular Color-Coded Gauge with Animated Number */}
           <div className="flex flex-col items-center justify-center relative w-72 sm:w-80">
-            <svg 
-              className="w-64 h-36 sm:w-72 sm:h-40 overflow-visible" 
+            <svg
+              className="w-64 h-36 sm:w-72 sm:h-40 overflow-visible"
               viewBox="0 0 200 110"
               role="img"
               aria-label={`Air Quality Index gauge showing ${city.currentAqi}, rated ${city.category}`}
@@ -114,7 +115,7 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
                 d="M 10 100 A 90 90 0 0 1 190 100"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={strokeWidth}
+                strokeWidth={GAUGE_CONFIG.STROKE_WIDTH}
                 strokeLinecap="round"
                 className="text-[var(--color-border)] opacity-60"
               />
@@ -124,8 +125,8 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
                 d="M 10 100 A 90 90 0 0 1 190 100"
                 fill="none"
                 stroke={currentColor}
-                strokeWidth={strokeWidth}
-                strokeDasharray={circumference}
+                strokeWidth={GAUGE_CONFIG.STROKE_WIDTH}
+                strokeDasharray={GAUGE_CONFIG.CIRCUMFERENCE}
                 strokeDashoffset={strokeDashoffset}
                 strokeLinecap="round"
                 className="gauge-arc"
@@ -137,22 +138,22 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
               <span className="text-xs uppercase font-bold tracking-widest text-[var(--color-text-secondary)] block">
                 US AQI
               </span>
-              <span 
+              <span
                 className="text-5xl sm:text-6xl font-black tracking-tight block transition-colors duration-500 font-mono"
                 style={{ color: currentColor }}
               >
                 {displayedAqi}
               </span>
-              <span className="text-xs text-[var(--color-text-secondary)]">
-                Scale: 0 – 500
-              </span>
+              <span className="text-xs text-[var(--color-text-secondary)]">Scale: 0 – 500</span>
             </div>
           </div>
 
           {/* Right Column: Category Badge, City Info, and Weather Metrics */}
           <div className="flex-1 text-center lg:text-left space-y-4">
             <div>
-              <div className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold mb-3 shadow-sm ${getAQIBadgeClasses(city.category)}`}>
+              <div
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold mb-3 shadow-sm ${getAQIBadgeClasses(city.category)}`}
+              >
                 <span className="w-2.5 h-2.5 rounded-full bg-current opacity-80" />
                 <span>{city.category}</span>
               </div>
@@ -208,12 +209,18 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
             <div className="p-3.5 rounded-2xl bg-[var(--color-bg-base)] border border-[var(--color-border)] flex items-start gap-3 text-sm text-[var(--color-text-primary)]">
               <ShieldAlert className="w-5 h-5 shrink-0 text-[#3b82f6] mt-0.5" />
               <p className="leading-relaxed">
-                {city.category === 'Good' && 'Air quality is great! An ideal day for outdoor cardio, walks, and natural room ventilation.'}
-                {city.category === 'Moderate' && 'Air quality is acceptable. Very sensitive individuals may consider reducing prolonged outdoor exertion.'}
-                {city.category === 'Unhealthy for Sensitive Groups' && 'Children, seniors, and people with respiratory conditions should take breaks and limit strenuous outdoor work.'}
-                {city.category === 'Unhealthy' && 'Everyone should reduce heavy outdoor exertion. Sensitive groups should wear N95 masks outdoors.'}
-                {city.category === 'Very Unhealthy' && 'Health warning: active children and adults should avoid all outdoor physical activities.'}
-                {city.category === 'Hazardous' && 'Emergency air alert: everyone should remain indoors with windows sealed and active HEPA air filtration.'}
+                {city.category === 'Good' &&
+                  'Air quality is great! An ideal day for outdoor cardio, walks, and natural room ventilation.'}
+                {city.category === 'Moderate' &&
+                  'Air quality is acceptable. Very sensitive individuals may consider reducing prolonged outdoor exertion.'}
+                {city.category === 'Unhealthy for Sensitive Groups' &&
+                  'Children, seniors, and people with respiratory conditions should take breaks and limit strenuous outdoor work.'}
+                {city.category === 'Unhealthy' &&
+                  'Everyone should reduce heavy outdoor exertion. Sensitive groups should wear N95 masks outdoors.'}
+                {city.category === 'Very Unhealthy' &&
+                  'Health warning: active children and adults should avoid all outdoor physical activities.'}
+                {city.category === 'Hazardous' &&
+                  'Emergency air alert: everyone should remain indoors with windows sealed and active HEPA air filtration.'}
               </p>
             </div>
           </div>

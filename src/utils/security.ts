@@ -16,7 +16,10 @@ export function sanitizeInput(input: string, maxLength: number = 60): string {
   }
 
   // 1. Remove dangerous script/style tags and their inner content
-  let cleaned = input.replace(/<\s*(script|style|iframe|embed|object)[^>]*>.*?<\s*\/\s*\1\s*>/gis, '');
+  let cleaned = input.replace(
+    /<\s*(script|style|iframe|embed|object)[^>]*>.*?<\s*\/\s*\1\s*>/gis,
+    ''
+  );
 
   // 2. Remove remaining HTML/XML tags
   cleaned = cleaned.replace(/<[^>]+>/g, '');
@@ -44,5 +47,7 @@ export function sanitizeInput(input: string, maxLength: number = 60): string {
 export function isSafeUrl(url: string): boolean {
   if (!url || typeof url !== 'string') return false;
   const trimmed = url.trim().toLowerCase();
-  return trimmed.startsWith('https://') || trimmed.startsWith('http://') || trimmed.startsWith('mailto:');
+  return (
+    trimmed.startsWith('https://') || trimmed.startsWith('http://') || trimmed.startsWith('mailto:')
+  );
 }

@@ -24,7 +24,7 @@ const CAUSES: CauseItem[] = [
     icon: Car,
     description:
       'Internal combustion engines, diesel freight transport, and stop-and-go congestion create massive surges in tailpipe aerosols, trapped close to the ground during low morning inversion layers.',
-    mitigation: 'EV transition, rapid transit corridors, odd-even traffic rationing.',
+    mitigation: 'EV transition, rapid transit corridors, odd-even traffic rationing.'
   },
   {
     id: 'industry',
@@ -36,7 +36,8 @@ const CAUSES: CauseItem[] = [
     icon: Factory,
     description:
       'Coal-powered thermal plants, metallurgical smelters, brick kilns, and chemical refineries discharge heavy plumes containing sulfur dioxide and ultrafine metal condensates.',
-    mitigation: 'Flue-gas desulfurization scrubbers, shift to natural gas, continuous emission monitoring.',
+    mitigation:
+      'Flue-gas desulfurization scrubbers, shift to natural gas, continuous emission monitoring.'
   },
   {
     id: 'burning',
@@ -48,7 +49,7 @@ const CAUSES: CauseItem[] = [
     icon: Flame,
     description:
       'Post-harvest seasonal crop residue burning combined with municipal solid waste combustion unleashes dense smoke sheets that drift across regional basins.',
-    mitigation: 'Happy Seeder machinery, bio-decomposer sprays, biomass pellet power plants.',
+    mitigation: 'Happy Seeder machinery, bio-decomposer sprays, biomass pellet power plants.'
   },
   {
     id: 'construction',
@@ -60,14 +61,14 @@ const CAUSES: CauseItem[] = [
     icon: HardHat,
     description:
       'Uncovered excavation pits, concrete pulverizing, and heavy haulage truck turbulence inject massive coarse particulate matter directly into residential street corridors.',
-    mitigation: 'Anti-smog mist water cannons, green dust netting, paved truck washing bays.',
-  },
+    mitigation: 'Anti-smog mist water cannons, green dust netting, paved truck washing bays.'
+  }
 ];
 
 export const CausesOfPollution: React.FC = () => {
   return (
-    <section 
-      id="causes" 
+    <section
+      id="causes"
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 scroll-mt-24"
       aria-label="Major Causes of Urban Air Pollution"
     >
@@ -80,7 +81,8 @@ export const CausesOfPollution: React.FC = () => {
           Major Causes of Urban Air Pollution
         </h2>
         <p className="text-base text-[var(--color-text-secondary)] mt-2 leading-relaxed">
-          The primary anthropogenic and meteorological sources driving dangerous smog events and atmospheric degradation.
+          The primary anthropogenic and meteorological sources driving dangerous smog events and
+          atmospheric degradation.
         </p>
       </div>
 
@@ -102,7 +104,7 @@ export const CausesOfPollution: React.FC = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-                  
+
                   {/* Category Pill Over Image */}
                   <div className="absolute top-3 left-3">
                     <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-black/60 text-white backdrop-blur-md border border-white/20 image-text-overlay">

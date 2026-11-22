@@ -6,12 +6,12 @@
   /* ==========================================================================
      LIGHT MODE THEME TOKENS (WCAG AA Compliant)
      ========================================================================== */
-  --color-bg-base: #FFFFFF;
-  --color-bg-surface: #F6F8FA;
+  --color-bg-base: #ffffff;
+  --color-bg-surface: #f6f8fa;
   --color-text-primary: #111827;
-  --color-text-secondary: #4B5563;
-  --color-border: #E5E7EB;
-  --color-placeholder: #6B7280;
+  --color-text-secondary: #4b5563;
+  --color-border: #e5e7eb;
+  --color-placeholder: #6b7280;
 
   /* EPA/WHO AQI Standard Color Scale */
   --aqi-good: #10b981;
@@ -61,12 +61,12 @@
   /* ==========================================================================
      DARK MODE THEME TOKENS (WCAG AA Compliant)
      ========================================================================== */
-  --color-bg-base: #0B0F14;
+  --color-bg-base: #0b0f14;
   --color-bg-surface: #121821;
-  --color-text-primary: #F3F4F6;
-  --color-text-secondary: #A1A9B5;
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #a1a9b5;
   --color-border: #263040;
-  --color-placeholder: #9CA3AF;
+  --color-placeholder: #9ca3af;
 
   /* AQI BADGE TOKENS (Dark Mode Adjusted) */
   --badge-good-bg: #064e3b;
@@ -113,8 +113,15 @@
   body {
     background-color: var(--color-bg-base);
     color: var(--color-text-primary);
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    font-family:
+      'Plus Jakarta Sans',
+      system-ui,
+      -apple-system,
+      sans-serif;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease;
     overflow-x: hidden;
     line-height: 1.6;
     font-weight: 400;
@@ -160,10 +167,11 @@
   border: 1px solid var(--color-border);
   border-radius: 1.25rem;
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.25s ease,
-              background-color 0.3s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease,
+    background-color 0.3s ease;
 }
 
 .clean-card:hover {
@@ -231,7 +239,8 @@
 }
 
 @keyframes floatParticle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) translateX(0px);
     opacity: 0.15;
   }
@@ -243,17 +252,24 @@
 
 /* Gauge SVG animations */
 .gauge-arc {
-  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.6s ease;
+  transition:
+    stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+    stroke 0.6s ease;
 }
 
 /* Standard tap target size */
-button, a, input, select {
+button,
+a,
+input,
+select {
   min-height: 44px;
 }
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

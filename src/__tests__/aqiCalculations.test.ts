@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { 
-  getCategoryFromAQI, 
-  getAQIColorHex, 
+import {
+  getCategoryFromAQI,
+  getAQIColorHex,
   getAQIBadgeClasses,
-  AQI_SCALE_INFO 
+  AQI_SCALE_INFO
 } from '../data/mockData';
 
 describe('AQI Scale & Categorization Logic', () => {
@@ -40,8 +40,8 @@ describe('AQI Scale & Categorization Logic', () => {
   });
 
   it('provides matching high-contrast hexadecimal color codes for each AQI bracket', () => {
-    expect(getAQIColorHex(30)).toBe('#10b981');  // Green (Good)
-    expect(getAQIColorHex(75)).toBe('#f59e0b');  // Amber (Moderate)
+    expect(getAQIColorHex(30)).toBe('#10b981'); // Green (Good)
+    expect(getAQIColorHex(75)).toBe('#f59e0b'); // Amber (Moderate)
     expect(getAQIColorHex(130)).toBe('#f97316'); // Orange (Sensitive)
     expect(getAQIColorHex(180)).toBe('#ef4444'); // Red (Unhealthy)
     expect(getAQIColorHex(250)).toBe('#8b5cf6'); // Purple (Very Unhealthy)
@@ -59,7 +59,7 @@ describe('AQI Scale & Categorization Logic', () => {
 
   it('verifies AQI_SCALE_INFO array contains all 6 discrete levels with descriptions', () => {
     expect(AQI_SCALE_INFO.length).toBe(6);
-    const categories = AQI_SCALE_INFO.map(item => item.category);
+    const categories = AQI_SCALE_INFO.map((item) => item.category);
     expect(categories).toEqual([
       'Good',
       'Moderate',

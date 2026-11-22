@@ -1,9 +1,9 @@
-export type AQICategory = 
-  | 'Good' 
-  | 'Moderate' 
-  | 'Unhealthy for Sensitive Groups' 
-  | 'Unhealthy' 
-  | 'Very Unhealthy' 
+export type AQICategory =
+  | 'Good'
+  | 'Moderate'
+  | 'Unhealthy for Sensitive Groups'
+  | 'Unhealthy'
+  | 'Very Unhealthy'
   | 'Hazardous';
 
 export interface PollutantDetail {

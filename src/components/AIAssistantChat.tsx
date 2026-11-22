@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Sparkles, Send, Bot, User, ShieldCheck, 
-  Key, RefreshCw, X
-} from 'lucide-react';
+import { Send, Bot, User, ShieldCheck, Key, RefreshCw, X } from 'lucide-react';
 import { ChatMessage, CityAirData } from '../types';
 import { SmogAIService } from '../services/aiService';
 
@@ -12,11 +9,7 @@ interface AIAssistantChatProps {
   onClose: () => void;
 }
 
-export const AIAssistantChat: React.FC<AIAssistantChatProps> = ({
-  city,
-  isOpen,
-  onClose
-}) => {
+export const AIAssistantChat: React.FC<AIAssistantChatProps> = ({ city, isOpen, onClose }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputPrompt, setInputPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -52,10 +45,12 @@ ${hasInversion ? `⚠️ **Severe Winter Smog Alert:** Thermal inversion is curr
       setMessages([initialMessage]);
       setApiKeyInput(SmogAIService.getApiKey());
     }
-  }, [isOpen, city.id]);
+  }, [isOpen, city]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (typeof messagesEndRef.current?.scrollIntoView === 'function') {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   useEffect(() => {
@@ -103,7 +98,8 @@ ${hasInversion ? `⚠️ **Severe Winter Smog Alert:** Thermal inversion is curr
       const errorMsg: ChatMessage = {
         id: `err-${Date.now()}`,
         role: 'assistant',
-        content: '⚠️ Unable to complete live API query. Reverting to verified local atmospheric knowledge engine.',
+        content:
+          '⚠️ Unable to complete live API query. Reverting to verified local atmospheric knowledge engine.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -122,15 +118,13 @@ ${hasInversion ? `⚠️ **Severe Winter Smog Alert:** Thermal inversion is curr
   };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
       role="dialog"
       aria-modal="true"
       aria-labelledby="ai-modal-title"
     >
-      <div 
-        className="clean-card w-full max-w-2xl h-[85vh] max-h-[700px] flex flex-col overflow-hidden shadow-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] animate-scaleUp"
-      >
+      <div className="clean-card w-full max-w-2xl h-[85vh] max-h-[700px] flex flex-col overflow-hidden shadow-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] animate-scaleUp">
         {/* Modal Header */}
         <div className="px-5 py-4 border-b border-[var(--color-border)] flex items-center justify-between bg-[var(--color-bg-base)]">
           <div className="flex items-center space-x-3">
@@ -139,7 +133,10 @@ ${hasInversion ? `⚠️ **Severe Winter Smog Alert:** Thermal inversion is curr
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h3 id="ai-modal-title" className="font-bold text-base text-[var(--color-text-primary)]">
+                <h3
+                  id="ai-modal-title"
+                  className="font-bold text-base text-[var(--color-text-primary)]"
+                >
                   AeroBot AI Smog Advisor
                 </h3>
                 <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
@@ -176,7 +173,9 @@ ${hasInversion ? `⚠️ **Severe Winter Smog Alert:** Thermal inversion is curr
         {showKeyInput && (
           <div className="px-5 py-3 bg-[var(--color-bg-base)] border-b border-[var(--color-border)] text-xs">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="font-medium text-[var(--color-text-primary)]">Google Gemini API Key (Optional)</span>
+              <span className="font-medium text-[var(--color-text-primary)]">
+                Google Gemini API Key (Optional)
+              </span>
               <span className="text-[var(--color-text-secondary)]">Runs locally if left blank</span>
             </div>
             <div className="flex gap-2">
@@ -202,9 +201,7 @@ ${hasInversion ? `⚠️ **Severe Winter Smog Alert:** Thermal inversion is curr
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex items-start gap-3 ${
-                msg.role === 'user' ? 'flex-row-reverse' : ''
-              }`}
+              className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
             >
               <div
                 className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${
@@ -224,9 +221,7 @@ ${hasInversion ? `⚠️ **Severe Winter Smog Alert:** Thermal inversion is curr
                 }`}
               >
                 {/* Content with basic markdown-style paragraph splits */}
-                <div className="whitespace-pre-wrap space-y-2">
-                  {msg.content}
-                </div>
+                <div className="whitespace-pre-wrap space-y-2">{msg.content}</div>
 
                 {/* Direct Impact Badge */}
                 {msg.impactData && (

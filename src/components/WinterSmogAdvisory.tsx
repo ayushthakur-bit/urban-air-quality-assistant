@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  AlertTriangle, Clock, Wind, ShieldAlert, Sparkles, 
-  CheckCircle2, ChevronDown, ChevronUp, Layers, Flame
+import {
+  AlertTriangle,
+  Clock,
+  Wind,
+  ShieldAlert,
+  Sparkles,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  Layers,
+  Flame
 } from 'lucide-react';
 import { CityAirData } from '../types';
 
@@ -10,10 +18,7 @@ interface WinterSmogAdvisoryProps {
   onOpenAI: () => void;
 }
 
-export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({
-  city,
-  onOpenAI,
-}) => {
+export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({ city, onOpenAI }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Determine if inversion advisory is applicable
@@ -34,7 +39,8 @@ export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({
       {
         title: 'Shift Morning Commute & Anti-Idling',
         timing: 'Before 09:00 AM or after 11:00 AM',
-        impact: 'Reduces personal particulate inhalation by up to 48% and cuts idling vehicle emissions.',
+        impact:
+          'Reduces personal particulate inhalation by up to 48% and cuts idling vehicle emissions.',
         category: 'Transit'
       },
       {
@@ -46,26 +52,29 @@ export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({
       {
         title: 'Window Aeration Breakup Window',
         timing: '13:00 – 15:00 PM',
-        impact: 'Capitalizes on solar thermal lift to purge stale air without drawing morning soot ceiling.',
+        impact:
+          'Capitalizes on solar thermal lift to purge stale air without drawing morning soot ceiling.',
         category: 'Ventilation'
       }
     ],
     indoorHacks: [
       {
         title: 'Dual-Layer HEPA + Activated Carbon Airlock',
-        description: 'Position purifier centrally in master bedroom with door threshold silicone sweeps installed.',
+        description:
+          'Position purifier centrally in master bedroom with door threshold silicone sweeps installed.',
         impact: 'Lowers indoor PM2.5 from 325 µg/m³ to under 20 µg/m³ (94% exposure reduction).'
       },
       {
         title: 'DIY Corsi-Rosenthal Box ($35–$45)',
-        description: 'Four MERV-13 furnace filters taped to a standard 20" box fan generates 450+ CFM clean air delivery.',
+        description:
+          'Four MERV-13 furnace filters taped to a standard 20" box fan generates 450+ CFM clean air delivery.',
         impact: 'Achieves 5 air changes per hour (ACH) at a fraction of commercial purifier costs.'
       }
     ]
   };
 
   return (
-    <section 
+    <section
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2"
       aria-label="Winter Smog and Ground-Level Temperature Inversion Advisory"
     >
@@ -165,7 +174,8 @@ export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({
                     Stagnant ({city.weather.windSpeed} km/h wind)
                   </span>
                   <p className="text-xs text-[var(--color-text-secondary)] mt-1">
-                    Humidity {city.weather.humidity}% binds hygroscopic PM2.5 into toxic secondary aerosols.
+                    Humidity {city.weather.humidity}% binds hygroscopic PM2.5 into toxic secondary
+                    aerosols.
                   </p>
                 </div>
               </div>
@@ -181,7 +191,7 @@ export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {advisory.lowEmissionRoutines.map((routine, idx) => (
-                  <div 
+                  <div
                     key={idx}
                     className="p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-base)] flex flex-col justify-between"
                   >
@@ -217,7 +227,7 @@ export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {advisory.indoorHacks.map((hack, idx) => (
-                  <div 
+                  <div
                     key={idx}
                     className="p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-base)] flex flex-col justify-between"
                   >

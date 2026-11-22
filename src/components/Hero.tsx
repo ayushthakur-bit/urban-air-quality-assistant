@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, MapPin, Loader2, X, Navigation } from 'lucide-react';
 import { CityAirData } from '../types';
-import { CITIES_DATABASE } from '../data/mockData';
-import { sanitizeInput } from '../utils/security';
+import { CITIES_DATABASE } from '../data/cities';
+import { validateCitySearchInput } from '../services/airQualityService';
 
 interface HeroProps {
   currentCity: CityAirData;
@@ -13,25 +13,32 @@ interface HeroProps {
   errorMessage?: string | null;
 }
 
+/**
+ * Hero section providing headline introduction, city search autocomplete,
+ * and GPS "Use My Location" proximity station detection.
+ */
 export const Hero: React.FC<HeroProps> = ({
   currentCity,
   onSelectCity,
   onLocateUser,
   isLocating,
   onSearchCustom,
-  errorMessage,
+  errorMessage
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [localError, setLocalError] = useState<string | null>(null);
+
   // Filter autocomplete suggestions from database
   const suggestions = searchQuery.trim()
-    ? CITIES_DATABASE.filter(c =>
-        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.stateOrRegion.toLowerCase().includes(searchQuery.toLowerCase())
+    ? CITIES_DATABASE.filter(
+        (c) =>
+          c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.stateOrRegion.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
 
@@ -52,18 +59,24 @@ export const Hero: React.FC<HeroProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanQuery = sanitizeInput(searchQuery, 50);
-    if (!cleanQuery) return;
+    setLocalError(null);
+
+    const validation = validateCitySearchInput(searchQuery);
+    if (!validation.isValid) {
+      setLocalError(validation.errorMessage || 'Please enter a valid city name.');
+      return;
+    }
 
     const matched = CITIES_DATABASE.find(
-      c => c.name.toLowerCase() === cleanQuery.toLowerCase()
+      (c) => c.name.toLowerCase() === validation.sanitized.toLowerCase()
     );
     if (matched) {
       onSelectCity(matched);
       setSearchQuery('');
       setSuggestionsOpen(false);
     } else {
-      onSearchCustom(cleanQuery);
+      onSearchCustom(validation.sanitized);
+      setSearchQuery('');
       setSuggestionsOpen(false);
     }
   };
@@ -75,8 +88,8 @@ export const Hero: React.FC<HeroProps> = ({
   };
 
   return (
-    <section 
-      id="home" 
+    <section
+      id="home"
       className="relative pt-10 pb-8 md:pt-16 md:pb-12 text-center overflow-hidden"
       aria-label="Air Quality City Search & Introduction"
     >
@@ -93,12 +106,12 @@ export const Hero: React.FC<HeroProps> = ({
 
       {/* Subtle Floating Ambient Particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div 
-          className="particle-dot w-48 h-48 bg-[#3b82f6]/10 blur-3xl -top-10 -left-10" 
+        <div
+          className="particle-dot w-48 h-48 bg-[#3b82f6]/10 blur-3xl -top-10 -left-10"
           style={{ animationDuration: '10s' }}
         />
-        <div 
-          className="particle-dot w-64 h-64 bg-[#60a5fa]/10 blur-3xl top-20 right-10" 
+        <div
+          className="particle-dot w-64 h-64 bg-[#60a5fa]/10 blur-3xl top-20 right-10"
           style={{ animationDuration: '12s' }}
         />
       </div>
@@ -112,12 +125,13 @@ export const Hero: React.FC<HeroProps> = ({
           </span>
         </h1>
         <p className="mt-4 text-base sm:text-lg text-[var(--color-text-secondary)] max-w-[65ch] mx-auto font-normal leading-relaxed">
-          Real-time urban air quality telemetry, pollutant breakdowns, and tailored health guidance for your city.
+          Real-time urban air quality telemetry, pollutant breakdowns, and tailored health guidance
+          for your city.
         </p>
 
         {/* Search Bar + Use My Location Button */}
         <div className="mt-8 max-w-2xl mx-auto">
-          <form 
+          <form
             onSubmit={handleSubmit}
             className="flex flex-col sm:flex-row items-stretch gap-3 relative"
             role="search"
@@ -153,7 +167,7 @@ export const Hero: React.FC<HeroProps> = ({
 
               {/* Suggestions Dropdown */}
               {suggestionsOpen && suggestions.length > 0 && (
-                <div 
+                <div
                   ref={dropdownRef}
                   className="absolute left-0 right-0 mt-2 bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-2xl shadow-xl z-30 overflow-hidden text-left max-h-64 overflow-y-auto animate-fadeIn"
                 >
@@ -179,14 +193,21 @@ export const Hero: React.FC<HeroProps> = ({
                         <span className="text-xs font-bold text-[var(--color-text-primary)]">
                           AQI {city.currentAqi}
                         </span>
-                        <span 
-                          className="w-2.5 h-2.5 rounded-full" 
+                        <span
+                          className="w-2.5 h-2.5 rounded-full"
                           style={{
-                            backgroundColor: city.currentAqi <= 50 ? '#10b981' :
-                                            city.currentAqi <= 100 ? '#f59e0b' :
-                                            city.currentAqi <= 150 ? '#ea580c' :
-                                            city.currentAqi <= 200 ? '#dc2626' :
-                                            city.currentAqi <= 300 ? '#7c3aed' : '#7f1d1d'
+                            backgroundColor:
+                              city.currentAqi <= 50
+                                ? '#10b981'
+                                : city.currentAqi <= 100
+                                  ? '#f59e0b'
+                                  : city.currentAqi <= 150
+                                    ? '#ea580c'
+                                    : city.currentAqi <= 200
+                                      ? '#dc2626'
+                                      : city.currentAqi <= 300
+                                        ? '#7c3aed'
+                                        : '#7f1d1d'
                           }}
                         />
                       </div>
@@ -237,10 +258,13 @@ export const Hero: React.FC<HeroProps> = ({
             ))}
           </div>
 
-          {/* Error Message if city not found */}
-          {errorMessage && (
-            <div className="mt-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-500/40 text-rose-700 dark:text-rose-300 text-sm font-medium animate-fadeIn">
-              {errorMessage}
+          {/* Error Message if city not found or validation fails */}
+          {(localError || errorMessage) && (
+            <div
+              role="alert"
+              className="mt-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-500/40 text-rose-700 dark:text-rose-300 text-sm font-medium animate-fadeIn"
+            >
+              {localError || errorMessage}
             </div>
           )}
         </div>

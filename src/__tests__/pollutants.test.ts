@@ -53,7 +53,7 @@ describe('Pollutants and Standard Threshold Verification', () => {
   });
 
   it('verifies that every city in CITIES_DATABASE has 24h hourly trends and 7d forecasts', () => {
-    CITIES_DATABASE.forEach(city => {
+    CITIES_DATABASE.forEach((city) => {
       expect(city.hourlyTrend.length).toBeGreaterThanOrEqual(8);
       expect(city.dailyForecast.length).toBe(7);
       expect(city.weather).toBeDefined();

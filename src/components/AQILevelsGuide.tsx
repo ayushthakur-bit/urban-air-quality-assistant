@@ -24,8 +24,9 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-good.webp',
     alt: 'Crisp clear blue sky over an urban cityscape indicating Good air quality (AQI 0-50)',
     visibility: 'Full Horizon (>10 km)',
-    healthAction: 'Air poses negligible risk. Ideal conditions for outdoor cardio and active recreation.',
-    icon: Sparkles,
+    healthAction:
+      'Air poses negligible risk. Ideal conditions for outdoor cardio and active recreation.',
+    icon: Sparkles
   },
   {
     id: 'moderate',
@@ -35,8 +36,9 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-moderate.webp',
     alt: 'Mild atmospheric haze across urban skyline indicating Moderate air quality (AQI 51-100)',
     visibility: 'Slight Atmospheric Haze (6–9 km)',
-    healthAction: 'Acceptable for general public. Unusually sensitive individuals may notice mild throat irritation.',
-    icon: Eye,
+    healthAction:
+      'Acceptable for general public. Unusually sensitive individuals may notice mild throat irritation.',
+    icon: Eye
   },
   {
     id: 'unhealthy',
@@ -46,8 +48,9 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-unhealthy.webp',
     alt: 'Thick smog obscuring downtown buildings during Unhealthy air conditions (AQI 151-200)',
     visibility: 'Heavy Smog Layer (2–4 km)',
-    healthAction: 'Everyone begins to experience health effects. N95 respirators advised outdoors; suspend cardio.',
-    icon: ShieldAlert,
+    healthAction:
+      'Everyone begins to experience health effects. N95 respirators advised outdoors; suspend cardio.',
+    icon: ShieldAlert
   },
   {
     id: 'hazardous',
@@ -57,9 +60,10 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-hazardous.webp',
     alt: 'Severe hazardous winter smog and dark red haze blanketing city (AQI 301+)',
     visibility: 'Critical Inversion Fog (<1 km)',
-    healthAction: 'Emergency warnings. Entire population at severe cardiovascular and respiratory risk. Stay indoors.',
-    icon: AlertOctagon,
-  },
+    healthAction:
+      'Emergency warnings. Entire population at severe cardiovascular and respiratory risk. Stay indoors.',
+    icon: AlertOctagon
+  }
 ];
 
 interface AQILevelsGuideProps {
@@ -68,8 +72,8 @@ interface AQILevelsGuideProps {
 
 export const AQILevelsGuide: React.FC<AQILevelsGuideProps> = ({ currentAqi }) => {
   return (
-    <section 
-      id="aqi-guide" 
+    <section
+      id="aqi-guide"
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 scroll-mt-24"
       aria-label="Visual Guide to Atmospheric AQI Levels"
     >
@@ -78,19 +82,20 @@ export const AQILevelsGuide: React.FC<AQILevelsGuideProps> = ({ currentAqi }) =>
           Visual Air Quality Index (AQI) Reference
         </h2>
         <p className="text-base text-[var(--color-text-secondary)] mt-2">
-          How real-world urban atmospheres shift in visibility and health severity across the global AQI spectrum.
+          How real-world urban atmospheres shift in visibility and health severity across the global
+          AQI spectrum.
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {AQI_LEVELS.map((level) => {
           const IconComponent = level.icon;
-          const isCurrentMatch = currentAqi !== undefined && (
-            (level.id === 'good' && currentAqi <= 50) ||
-            (level.id === 'moderate' && currentAqi > 50 && currentAqi <= 100) ||
-            (level.id === 'unhealthy' && currentAqi > 100 && currentAqi <= 200) ||
-            (level.id === 'hazardous' && currentAqi > 200)
-          );
+          const isCurrentMatch =
+            currentAqi !== undefined &&
+            ((level.id === 'good' && currentAqi <= 50) ||
+              (level.id === 'moderate' && currentAqi > 50 && currentAqi <= 100) ||
+              (level.id === 'unhealthy' && currentAqi > 100 && currentAqi <= 200) ||
+              (level.id === 'hazardous' && currentAqi > 200));
 
           return (
             <div
@@ -112,7 +117,7 @@ export const AQILevelsGuide: React.FC<AQILevelsGuideProps> = ({ currentAqi }) =>
 
                   {/* Range Pill on top-right */}
                   <div className="absolute top-3 right-3">
-                    <span 
+                    <span
                       className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold shadow-md ${getAQIBadgeClasses(level.name)}`}
                     >
                       {level.range}
@@ -122,7 +127,7 @@ export const AQILevelsGuide: React.FC<AQILevelsGuideProps> = ({ currentAqi }) =>
                   {/* Level Name & Icon on bottom-left */}
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div 
+                      <div
                         className="w-7 h-7 rounded-lg flex items-center justify-center text-white backdrop-blur-md"
                         style={{ backgroundColor: `${level.colorHex}99` }}
                       >
@@ -144,7 +149,9 @@ export const AQILevelsGuide: React.FC<AQILevelsGuideProps> = ({ currentAqi }) =>
                 {/* Content */}
                 <div className="p-5">
                   <div className="flex items-center justify-between text-xs mb-3">
-                    <span className="text-[var(--color-text-secondary)] font-medium">Visibility:</span>
+                    <span className="text-[var(--color-text-secondary)] font-medium">
+                      Visibility:
+                    </span>
                     <span className="font-bold text-[var(--color-text-primary)]">
                       {level.visibility}
                     </span>
@@ -157,7 +164,7 @@ export const AQILevelsGuide: React.FC<AQILevelsGuideProps> = ({ currentAqi }) =>
               </div>
 
               {/* Status color indicator bar at bottom */}
-              <div 
+              <div
                 className="h-1.5 w-full"
                 style={{ backgroundColor: level.colorHex }}
                 aria-hidden="true"

@@ -12,18 +12,19 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   onToggleDarkMode,
   onOpenAbout,
-  onOpenAI,
+  onOpenAI
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
     { label: 'Home', href: '#home' },
+    { label: 'How It Helps', href: '#how-it-helps' },
     { label: 'Live AQI', href: '#live-aqi' },
     { label: 'Cities', href: '#cities' },
     { label: 'Pollutants', href: '#pollutants' },
     { label: 'Causes', href: '#causes' },
     { label: 'Forecast', href: '#forecast' },
-    { label: 'Health Tips', href: '#health-tips' },
+    { label: 'Health Tips', href: '#health-tips' }
   ];
 
   const handleLinkClick = () => {
@@ -31,15 +32,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <nav 
+    <nav
       className="sticky top-0 z-50 bg-[var(--color-bg-base)]/90 backdrop-blur-md border-b border-[var(--color-border)] transition-colors duration-300"
       aria-label="Main Navigation"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a 
-            href="#home" 
+          <a
+            href="#home"
             className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#3b82f6] rounded-xl p-1"
           >
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#3b82f6] to-[#60a5fa] p-0.5 shadow-md flex items-center justify-center transition-transform group-hover:scale-105">

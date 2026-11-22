@@ -8,7 +8,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onOpenAbout, onOpenCredits }) => {
   return (
-    <footer 
+    <footer
       className="border-t border-[var(--color-border)] bg-[var(--color-bg-surface)] py-12 text-sm text-[var(--color-text-secondary)] transition-colors duration-300"
       role="contentinfo"
     >
@@ -27,7 +27,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAbout, onOpenCredits }) =>
               </span>
             </div>
             <p className="text-xs text-[var(--color-text-secondary)] max-w-sm leading-relaxed">
-              Empowering urban residents, families, and communities with clear, actionable air quality telemetry, atmospheric science explanations, and preventive health guidance.
+              Empowering urban residents, families, and communities with clear, actionable air
+              quality telemetry, atmospheric science explanations, and preventive health guidance.
             </p>
           </div>
 
@@ -38,37 +39,58 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAbout, onOpenCredits }) =>
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#home" className="hover:text-[var(--color-text-primary)] transition-colors">
+                <a
+                  href="#home"
+                  className="hover:text-[var(--color-text-primary)] transition-colors"
+                >
                   Home & Search
                 </a>
               </li>
               <li>
-                <a href="#live-aqi" className="hover:text-[var(--color-text-primary)] transition-colors">
+                <a
+                  href="#live-aqi"
+                  className="hover:text-[var(--color-text-primary)] transition-colors"
+                >
                   Live AQI Monitor
                 </a>
               </li>
               <li>
-                <a href="#cities" className="hover:text-[var(--color-text-primary)] transition-colors">
+                <a
+                  href="#cities"
+                  className="hover:text-[var(--color-text-primary)] transition-colors"
+                >
                   Monitored Skylines
                 </a>
               </li>
               <li>
-                <a href="#pollutants" className="hover:text-[var(--color-text-primary)] transition-colors">
+                <a
+                  href="#pollutants"
+                  className="hover:text-[var(--color-text-primary)] transition-colors"
+                >
                   Pollutants Breakdown
                 </a>
               </li>
               <li>
-                <a href="#causes" className="hover:text-[var(--color-text-primary)] transition-colors">
+                <a
+                  href="#causes"
+                  className="hover:text-[var(--color-text-primary)] transition-colors"
+                >
                   Pollution Causes
                 </a>
               </li>
               <li>
-                <a href="#forecast" className="hover:text-[var(--color-text-primary)] transition-colors">
+                <a
+                  href="#forecast"
+                  className="hover:text-[var(--color-text-primary)] transition-colors"
+                >
                   Forecast & Trends
                 </a>
               </li>
               <li>
-                <a href="#health-tips" className="hover:text-[var(--color-text-primary)] transition-colors">
+                <a
+                  href="#health-tips"
+                  className="hover:text-[var(--color-text-primary)] transition-colors"
+                >
                   Health Recommendations
                 </a>
               </li>
@@ -117,7 +139,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAbout, onOpenCredits }) =>
 
         {/* Bottom Credits & Disclaimer */}
         <div className="pt-6 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--color-text-secondary)]">
-          <p>© {new Date().getFullYear()} UrbanAir Assistant. Designed for public health awareness.</p>
+          <p>
+            © {new Date().getFullYear()} UrbanAir Assistant. Designed for public health awareness.
+          </p>
           <p>Not intended as a replacement for emergency medical advice.</p>
         </div>
       </div>
