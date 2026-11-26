@@ -1,4 +1,5 @@
 # 🌍 UrbanAir | Urban Air Quality & Winter Smog Defense Assistant
+VGSCKU
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](https://react.dev/)
