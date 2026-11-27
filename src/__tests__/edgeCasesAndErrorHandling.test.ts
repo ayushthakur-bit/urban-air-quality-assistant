@@ -73,11 +73,11 @@ describe('Edge Cases and Robust Error Handling Suite', () => {
     it('gracefully handles non-finite GPS coordinates (NaN, Infinity)', () => {
       const nanCity = findNearestCity(NaN, NaN);
       expect(nanCity).toBeDefined();
-      expect(nanCity.id).toBe(CITIES_DATABASE[0].id);
+      expect(nanCity.id).toBe(CITIES_DATABASE[0]!.id);
 
       const infCity = findNearestCity(Infinity, -Infinity);
       expect(infCity).toBeDefined();
-      expect(infCity.id).toBe(CITIES_DATABASE[0].id);
+      expect(infCity.id).toBe(CITIES_DATABASE[0]!.id);
     });
 
     it('formats pollutant values cleanly, protecting against non-finite values', () => {
@@ -105,7 +105,7 @@ describe('Edge Cases and Robust Error Handling Suite', () => {
       global.fetch = vi.fn().mockRejectedValue(new Error('Network offline or ECONNREFUSED'));
 
       SmogAIService.setApiKey('AIzaSyMockFaultyKey');
-      const response = await SmogAIService.askAeroBot('What should I do during high smog?', CITIES_DATABASE[0]);
+      const response = await SmogAIService.askAeroBot('What should I do during high smog?', CITIES_DATABASE[0]!);
 
       expect(response).toBeDefined();
       expect(response.content).toContain('AeroBot');
@@ -117,21 +117,34 @@ describe('Edge Cases and Robust Error Handling Suite', () => {
     });
 
     it('handles localStorage throwing errors gracefully and uses in-memory map', () => {
-      const originalSet = window.localStorage.setItem;
-      const originalGet = window.localStorage.getItem;
-      const originalRemove = window.localStorage.removeItem;
-
-      window.localStorage.setItem = () => { throw new Error('QuotaExceededError'); };
-      window.localStorage.getItem = () => { throw new Error('SecurityError'); };
-      window.localStorage.removeItem = () => { throw new Error('SecurityError'); };
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const setSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('QuotaExceededError');
+      });
+      const getSpy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('SecurityError');
+      });
+      const removeSpy = vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+        throw new Error('SecurityError');
+      });
 
       expect(safeSetStorage('testErrorKey', 'value123')).toBe(true);
-      expect(safeGetStorage('testErrorKey')).toBe('value123');
+      expect(safeGetStorage('testErrorKey', 'defaultVal')).toBe('value123');
+      expect(safeGetStorage('missingKey', 'fallback')).toBe('fallback');
       expect(safeRemoveStorage('testErrorKey')).toBe(true);
+      expect(safeGetStorage('testErrorKey', 'gone')).toBe('gone');
 
-      window.localStorage.setItem = originalSet;
-      window.localStorage.getItem = originalGet;
-      window.localStorage.removeItem = originalRemove;
+      setSpy.mockRestore();
+      getSpy.mockRestore();
+      removeSpy.mockRestore();
+      warnSpy.mockRestore();
+    });
+
+    it('performs normal get, set, and remove operations with local storage', () => {
+      expect(safeSetStorage('normalKey', 'hello')).toBe(true);
+      expect(safeGetStorage('normalKey')).toBe('hello');
+      expect(safeRemoveStorage('normalKey')).toBe(true);
+      expect(safeGetStorage('normalKey', 'default')).toBe('default');
     });
   });
 });

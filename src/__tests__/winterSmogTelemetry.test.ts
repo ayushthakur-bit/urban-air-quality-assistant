@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { CITIES_DATABASE } from '../data/mockData';
+import { CITIES_DATABASE } from '../data/cities';
 
 describe('Winter Smog & Thermal Inversion Advisory Telemetry', () => {
   const delhi = CITIES_DATABASE.find((c) => c.id === 'delhi')!;

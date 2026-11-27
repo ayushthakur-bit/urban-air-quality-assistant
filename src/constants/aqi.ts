@@ -35,7 +35,13 @@ export const WHO_STANDARD_LIMITS = {
   NO2: 25, // ppb (24-hour mean)
   SO2: 20, // ppb (24-hour mean)
   CO: 4.0, // ppm (24-hour mean)
-  O3: 50 // ppb (8-hour daily maximum)
+  O3: 50, // ppb (8-hour daily maximum)
+  pm25: 15,
+  pm10: 45,
+  no2: 25,
+  so2: 20,
+  co: 4.0,
+  o3: 50
 } as const;
 
 /**

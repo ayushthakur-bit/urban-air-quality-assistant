@@ -1,11 +1,9 @@
-import { CityAirData } from '../types';
-import { CITIES_DATABASE } from '../data/cities';
+import { CityAirData, PollutantDetail, HourlyForecast, DailyForecast } from '../types';
+import { CITIES_DATABASE, DEFAULT_FALLBACK_CITY } from '../data/cities';
 import { getCategoryFromAQI, WHO_STANDARD_LIMITS } from '../constants/aqi';
 import { sanitizeInput } from '../utils/security';
 
-/**
- * Result of input validation for city search queries.
- */
+/** Result of input validation for city search queries. */
 export interface ValidationResult {
   isValid: boolean;
   sanitized: string;
@@ -14,48 +12,26 @@ export interface ValidationResult {
 
 /**
  * Validates and sanitizes a user-entered city search string.
- * Enforces length limits and strips malicious/control characters.
  *
  * @param query - Raw search query from user.
- * @returns ValidationResult object containing validity boolean, sanitized text, and optional error message.
+ * @returns ValidationResult with validity flag and sanitized string.
  */
 export function validateCitySearchInput(query: string): ValidationResult {
   if (!query || typeof query !== 'string') {
-    return {
-      isValid: false,
-      sanitized: '',
-      errorMessage: 'Please enter a city name to search.'
-    };
+    return { isValid: false, sanitized: '', errorMessage: 'Please enter a city name to search.' };
   }
-
   const sanitized = sanitizeInput(query, 60);
-
   if (sanitized.length < 2) {
-    return {
-      isValid: false,
-      sanitized,
-      errorMessage: 'City name must be at least 2 characters long.'
-    };
+    return { isValid: false, sanitized, errorMessage: 'City name must be at least 2 characters long.' };
   }
-
-  // Prevent numeric-only searches
   if (/^\d+$/.test(sanitized)) {
-    return {
-      isValid: false,
-      sanitized,
-      errorMessage: 'Please enter a valid alphabetic city name, not solely numbers.'
-    };
+    return { isValid: false, sanitized, errorMessage: 'Please enter an alphabetic city name, not solely numbers.' };
   }
-
-  return {
-    isValid: true,
-    sanitized
-  };
+  return { isValid: true, sanitized };
 }
 
 /**
  * Finds the nearest monitored city in the database using Euclidean distance.
- * Gracefully handles non-finite coordinates by returning the primary reference station (Delhi).
  *
  * @param latitude - GPS latitude coordinate (-90 to 90).
  * @param longitude - GPS longitude coordinate (-180 to 180).
@@ -63,10 +39,9 @@ export function validateCitySearchInput(query: string): ValidationResult {
  */
 export function findNearestCity(latitude: number, longitude: number): CityAirData {
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-    return CITIES_DATABASE[0];
+    return DEFAULT_FALLBACK_CITY;
   }
-
-  let closestCity = CITIES_DATABASE[0];
+  let closestCity: CityAirData = DEFAULT_FALLBACK_CITY;
   let minDistance = Infinity;
 
   for (const city of CITIES_DATABASE) {
@@ -84,6 +59,70 @@ export function findNearestCity(latitude: number, longitude: number): CityAirDat
   };
 }
 
+/** Constructs synthetic pollutant breakdown for estimated cities. */
+function buildSyntheticPollutants(baseAqi: number): CityAirData['pollutants'] {
+  const getStatus = (v: number, l: number): PollutantDetail['status'] =>
+    v <= l ? 'Good' : v <= l * 2 ? 'Moderate' : 'Unhealthy';
+
+  const pm25 = Number((baseAqi * 0.28).toFixed(1));
+  const pm10 = Number((baseAqi * 0.45).toFixed(1));
+  const no2 = Number((baseAqi * 0.22).toFixed(1));
+  const so2 = Number((baseAqi * 0.12).toFixed(1));
+  const co = Number(((baseAqi * 4.5) / 1000).toFixed(2));
+  const o3 = Number((baseAqi * 0.35).toFixed(1));
+
+  return {
+    pm25: { code: 'PM2.5', name: 'Fine Particulate Matter', value: pm25, unit: 'µg/m³', status: getStatus(pm25, WHO_STANDARD_LIMITS.pm25), standardLimit: WHO_STANDARD_LIMITS.pm25, explanation: 'Combustion particles from traffic & industry.' },
+    pm10: { code: 'PM10', name: 'Coarse Particulates', value: pm10, unit: 'µg/m³', status: getStatus(pm10, WHO_STANDARD_LIMITS.pm10), standardLimit: WHO_STANDARD_LIMITS.pm10, explanation: 'Suspended dust and mechanical abrasion.' },
+    no2: { code: 'NO2', name: 'Nitrogen Dioxide', value: no2, unit: 'µg/m³', status: getStatus(no2, WHO_STANDARD_LIMITS.no2), standardLimit: WHO_STANDARD_LIMITS.no2, explanation: 'Vehicle emissions causing respiratory irritation.' },
+    so2: { code: 'SO2', name: 'Sulfur Dioxide', value: so2, unit: 'µg/m³', status: getStatus(so2, WHO_STANDARD_LIMITS.so2), standardLimit: WHO_STANDARD_LIMITS.so2, explanation: 'Industrial power generation byproduct.' },
+    co: { code: 'CO', name: 'Carbon Monoxide', value: co, unit: 'mg/m³', status: getStatus(co, WHO_STANDARD_LIMITS.co), standardLimit: WHO_STANDARD_LIMITS.co, explanation: 'Incomplete combustion exhaust.' },
+    o3: { code: 'O3', name: 'Ozone', value: o3, unit: 'µg/m³', status: getStatus(o3, WHO_STANDARD_LIMITS.o3), standardLimit: WHO_STANDARD_LIMITS.o3, explanation: 'Photochemical smog secondary oxidant.' }
+  };
+}
+
+/** Constructs synthetic 24-hour diurnal trend for estimated cities. */
+function buildSyntheticHourly(baseAqi: number): HourlyForecast[] {
+  const times = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+  return times.map((t, i) => {
+    const factor = [0.85, 0.9, 1.15, 1.25, 0.95, 0.8, 1.1, 1.0][i] ?? 1.0;
+    return {
+      time: t,
+      aqi: Math.round(baseAqi * factor),
+      pm25: Number((baseAqi * factor * 0.28).toFixed(1)),
+      temp: 22 - (i % 3)
+    };
+  });
+}
+
+/** Constructs synthetic 7-day extended forecast for estimated cities. */
+function buildSyntheticDaily(baseAqi: number): DailyForecast[] {
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  return days.map((d, i) => {
+    const aqi = Math.max(10, Math.round(baseAqi + (i - 3) * 6));
+    return {
+      day: d,
+      date: `Nov ${23 + i}`,
+      aqi,
+      maxAqi: Math.round(aqi * 1.15),
+      minAqi: Math.round(aqi * 0.85),
+      category: getCategoryFromAQI(aqi),
+      temp: 24,
+      weatherCondition: aqi > 150 ? 'Smog Haze' : 'Partly Cloudy'
+    };
+  });
+}
+
+/** Formats a numeric pollutant reading safely for display, supporting optional units. */
+export function formatPollutantValue(value: number, unitOrDecimals: string | number = 1): string {
+  if (typeof unitOrDecimals === 'string') {
+    const valStr = !Number.isFinite(value) || value < 0 ? '0' : String(value);
+    return `${valStr} ${unitOrDecimals}`;
+  }
+  if (!Number.isFinite(value) || value < 0) return '0.0';
+  return value.toFixed(unitOrDecimals);
+}
+
 /**
  * Generates an estimated, physically consistent Air Quality dataset for custom cities
  * not currently indexed in the core metropolitan database.
@@ -93,146 +132,30 @@ export function findNearestCity(latitude: number, longitude: number): CityAirDat
  * @returns Fully constructed CityAirData record.
  */
 export function generateEstimatedCityData(cityName: string, explicitAqi?: number): CityAirData {
-  const cleanName = sanitizeInput(cityName, 50) || 'Global Station';
-  const capitalized = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
-
-  // Use explicit AQI if provided (useful for tests), else generate a moderate/elevated reading
-  const baseAqi =
-    typeof explicitAqi === 'number' && Number.isFinite(explicitAqi)
-      ? Math.max(0, Math.round(explicitAqi))
-      : Math.floor(Math.random() * 80 + 35);
-
-  const category = getCategoryFromAQI(baseAqi);
-  const isHighSmog = baseAqi > 150;
+  const clean = sanitizeInput(cityName, 50) || 'Global Station';
+  const name = clean.charAt(0).toUpperCase() + clean.slice(1);
+  const baseAqi = Number.isFinite(explicitAqi) ? Math.max(0, Math.round(explicitAqi!)) : 68;
+  const isHigh = baseAqi > 150;
 
   return {
     id: `custom-${Date.now()}`,
-    name: capitalized,
+    name,
     stateOrRegion: 'Regional Air Basin',
     country: 'Global Station',
     lat: 0,
     lng: 0,
     currentAqi: baseAqi,
-    category,
+    category: getCategoryFromAQI(baseAqi),
     updatedAt: 'Just now (Live Interpolation)',
-    weather: {
-      temp: 18,
-      humidity: 55,
-      windSpeed: 8,
-      condition: isHighSmog ? 'Atmospheric Haze' : 'Partly Cloudy'
-    },
-    pollutants: {
-      pm25: {
-        code: 'PM2.5',
-        name: 'Fine Particulate Matter',
-        value: Number((baseAqi * 0.28).toFixed(1)),
-        unit: 'µg/m³',
-        status: baseAqi <= 50 ? 'Good' : baseAqi <= 100 ? 'Moderate' : 'Unhealthy',
-        standardLimit: WHO_STANDARD_LIMITS.PM25,
-        explanation:
-          'Microscopic particles (< 2.5µm) from traffic combustion and atmospheric aerosols.'
-      },
-      pm10: {
-        code: 'PM10',
-        name: 'Coarse Particulates',
-        value: Number((baseAqi * 0.45).toFixed(1)),
-        unit: 'µg/m³',
-        status: baseAqi <= 50 ? 'Good' : baseAqi <= 100 ? 'Moderate' : 'Unhealthy',
-        standardLimit: WHO_STANDARD_LIMITS.PM10,
-        explanation: 'Inhalable dust, pollen, and ground construction sediment.'
-      },
-      no2: {
-        code: 'NO2',
-        name: 'Nitrogen Dioxide',
-        value: Math.floor(baseAqi * 0.25),
-        unit: 'ppb',
-        status: 'Good',
-        standardLimit: WHO_STANDARD_LIMITS.NO2,
-        explanation: 'Combustion byproduct from urban vehicle traffic.'
-      },
-      so2: {
-        code: 'SO2',
-        name: 'Sulfur Dioxide',
-        value: Math.floor(baseAqi * 0.08),
-        unit: 'ppb',
-        status: 'Good',
-        standardLimit: WHO_STANDARD_LIMITS.SO2,
-        explanation: 'Low baseline from regional industrial fuel combustion.'
-      },
-      co: {
-        code: 'CO',
-        name: 'Carbon Monoxide',
-        value: Number((baseAqi * 0.01).toFixed(1)),
-        unit: 'ppm',
-        status: 'Good',
-        standardLimit: WHO_STANDARD_LIMITS.CO,
-        explanation: 'Trace byproduct of incomplete gasoline combustion.'
-      },
-      o3: {
-        code: 'O3',
-        name: 'Ground Ozone',
-        value: Math.floor(baseAqi * 0.35),
-        unit: 'ppb',
-        status: 'Good',
-        standardLimit: WHO_STANDARD_LIMITS.O3,
-        explanation: 'Photochemical smog component formed under direct sunlight.'
-      }
-    },
-    hourlyTrend: Array.from({ length: 8 }).map((_, i) => ({
-      time: `${String(i * 3).padStart(2, '0')}:00`,
-      aqi: Math.max(10, Math.floor(baseAqi + Math.sin(i) * 12)),
-      pm25: Number((baseAqi * 0.28).toFixed(1)),
-      temp: 18
-    })),
-    dailyForecast: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => ({
-      day,
-      date: 'Projections',
-      aqi: Math.max(15, Math.floor(baseAqi + Math.sin(day.charCodeAt(0)) * 10)),
-      maxAqi: baseAqi + 12,
-      minAqi: Math.max(10, baseAqi - 12),
-      category: getCategoryFromAQI(baseAqi),
-      temp: 18,
-      weatherCondition: isHighSmog ? 'Hazy' : 'Clear'
-    })),
+    weather: { temp: 18, humidity: 55, windSpeed: 8, condition: isHigh ? 'Atmospheric Haze' : 'Partly Cloudy' },
+    pollutants: buildSyntheticPollutants(baseAqi),
+    hourlyTrend: buildSyntheticHourly(baseAqi),
+    dailyForecast: buildSyntheticDaily(baseAqi),
     healthAdvice: {
-      mask: {
-        required: isHighSmog,
-        type: isHighSmog ? 'N95 / KN95 Respirator' : 'None needed',
-        advice: isHighSmog
-          ? 'Wear a certified N95 particulate respirator when outdoors.'
-          : 'Air is within acceptable guidelines for normal breathing.'
-      },
-      exercise: {
-        allowed: !isHighSmog,
-        advice: !isHighSmog
-          ? 'Safe conditions for outdoor walks and cardio exercise.'
-          : 'Shift heavy cardio workouts indoors to reduce deep pulmonary ventilation.'
-      },
-      sensitiveGroups: {
-        warning: baseAqi > 100,
-        advice:
-          baseAqi > 100
-            ? 'Children, older adults, and asthmatics should monitor for coughing or chest tightness.'
-            : 'Low exposure risk for sensitive individuals.'
-      },
-      ventilation: {
-        openWindows: !isHighSmog,
-        advice: !isHighSmog
-          ? 'Safe to open windows for continuous home ventilation.'
-          : 'Keep windows latched shut during peak morning hours; run an indoor air purifier.'
-      }
+      mask: { required: isHigh, type: isHigh ? 'N95 Respirator' : 'Optional', advice: isHigh ? 'Wear N95 outdoors.' : 'No mask required.' },
+      exercise: { allowed: !isHigh, advice: isHigh ? 'Move workouts indoors.' : 'Safe for outdoor exercise.' },
+      sensitiveGroups: { warning: baseAqi > 100, advice: 'Vulnerable individuals should limit prolonged outdoor exertion.' },
+      ventilation: { openWindows: !isHigh, advice: isHigh ? 'Keep windows sealed; use filtration.' : 'Safe natural ventilation.' }
     }
   };
-}
-
-/**
- * Formats a pollutant numerical reading with its appropriate physical unit.
- *
- * @param value - Numerical concentration.
- * @param unit - Physical measurement unit string (e.g. 'µg/m³', 'ppb', 'ppm').
- * @returns Cleanly formatted string.
- */
-export function formatPollutantValue(value: number, unit: string): string {
-  if (!Number.isFinite(value)) return `0 ${unit}`;
-  return `${value} ${unit}`;
 }

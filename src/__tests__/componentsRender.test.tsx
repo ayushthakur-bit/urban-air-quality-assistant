@@ -17,7 +17,7 @@ import { App } from '../App';
 import { CITIES_DATABASE } from '../data/cities';
 
 describe('Comprehensive Component Coverage & Rendering Suite', () => {
-  const mockCity = CITIES_DATABASE[0]; // Delhi (Hazardous AQI with inversion)
+  const mockCity = CITIES_DATABASE[0]!; // Delhi (Hazardous AQI with inversion)
 
   afterEach(() => {
     cleanup();
@@ -75,7 +75,7 @@ describe('Comprehensive Component Coverage & Rendering Suite', () => {
   });
 
   it('returns null for WinterSmogAdvisory when city has no inversion and low AQI', () => {
-    const cleanCity = { ...CITIES_DATABASE[1], currentAqi: 35, inversionAdvisory: undefined };
+    const cleanCity = { ...CITIES_DATABASE[1]!, currentAqi: 35, inversionAdvisory: undefined };
     const { container } = render(<WinterSmogAdvisory city={cleanCity} onOpenAI={vi.fn()} />);
     expect(container.firstChild).toBeNull();
   });
@@ -166,11 +166,6 @@ describe('Comprehensive Component Coverage & Rendering Suite', () => {
 
     expect(screen.getByText(/AeroBot AI Smog Advisor/i)).toBeDefined();
 
-    // Toggle API key drawer
-    const keyBtn = screen.getByLabelText(/Configure Optional Gemini API Key/i);
-    fireEvent.click(keyBtn);
-    expect(screen.getByPlaceholderText(/Paste AI Studio API Key/i)).toBeDefined();
-
     // Type a chat message
     const input = screen.getByLabelText(/Message to AeroBot AI/i);
     fireEvent.change(input, { target: { value: 'When should I open my windows?' } });
@@ -195,7 +190,7 @@ describe('Comprehensive Component Coverage & Rendering Suite', () => {
 
     // Click another city (e.g. Mumbai) in CityCards
     const mumbaiCards = screen.getAllByText('Mumbai');
-    fireEvent.click(mumbaiCards[0]);
+    fireEvent.click(mumbaiCards[0]!);
 
     // Verify Mumbai is selected
     await waitFor(() => {
@@ -207,7 +202,7 @@ describe('Comprehensive Component Coverage & Rendering Suite', () => {
     render(<App />);
 
     // Open About Modal from Navbar
-    const aboutBtn = screen.getAllByRole('button', { name: /About/i })[0];
+    const aboutBtn = screen.getAllByRole('button', { name: /About/i })[0]!;
     fireEvent.click(aboutBtn);
     expect(screen.getByText(/About the Air Quality Index/i)).toBeDefined();
 

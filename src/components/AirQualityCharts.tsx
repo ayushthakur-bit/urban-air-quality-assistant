@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
-import {
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine
-} from 'recharts';
 import { CityAirData } from '../types';
 import { Calendar, Clock, TrendingUp } from 'lucide-react';
 import { getAQIColorHex } from '../constants/aqi';
+import { HourlyTrendChart } from './charts/HourlyTrendChart';
+import { DailyForecastChart } from './charts/DailyForecastChart';
 
 interface AirQualityChartsProps {
   city: CityAirData;
@@ -27,7 +18,6 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
   const [activeChartTab, setActiveChartTab] = useState<'24h' | '7day'>('24h');
 
   const currentColor = getAQIColorHex(city.currentAqi);
-  // High-contrast secondary text token for chart axis ticks: #4B5563 (light), #A1A9B5 (dark)
   const axisColor = isDarkMode ? '#A1A9B5' : '#4B5563';
 
   return (
@@ -87,217 +77,9 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
         {/* Chart View Content */}
         <div className="pt-6">
           {activeChartTab === '24h' ? (
-            <div>
-              {/* 24-Hour Area Chart */}
-              <div className="h-72 sm:h-80 w-full" aria-label="24-hour hourly AQI trend chart">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    data={city.hourlyTrend}
-                    margin={{ top: 15, right: 10, left: -20, bottom: 0 }}
-                  >
-                    <defs>
-                      <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={currentColor} stopOpacity={0.5} />
-                        <stop offset="95%" stopColor={currentColor} stopOpacity={0.0} />
-                      </linearGradient>
-                    </defs>
-                    <XAxis
-                      dataKey="time"
-                      stroke={axisColor}
-                      fontSize={12}
-                      fontWeight={500}
-                      tickLine={false}
-                    />
-                    <YAxis
-                      stroke={axisColor}
-                      fontSize={12}
-                      fontWeight={500}
-                      tickLine={false}
-                      domain={[0, 'dataMax + 40']}
-                    />
-                    <Tooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          return (
-                            <div className="p-3 bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-xl shadow-xl text-xs space-y-1">
-                              <span className="font-bold text-[var(--color-text-primary)] block border-b border-[var(--color-border)] pb-1">
-                                Time: {data.time}
-                              </span>
-                              <div className="flex justify-between gap-4 pt-1">
-                                <span className="text-[var(--color-text-secondary)]">AQI:</span>
-                                <span className="font-bold text-[var(--color-text-primary)]">
-                                  {data.aqi}
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4">
-                                <span className="text-[var(--color-text-secondary)]">PM2.5:</span>
-                                <span className="font-semibold text-[var(--color-text-primary)]">
-                                  {data.pm25} µg/m³
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4">
-                                <span className="text-[var(--color-text-secondary)]">
-                                  Temperature:
-                                </span>
-                                <span className="font-semibold text-[var(--color-text-primary)]">
-                                  {data.temp}°C
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <ReferenceLine
-                      y={50}
-                      stroke="#10b981"
-                      strokeDasharray="3 3"
-                      label={{ value: 'Good (50)', fill: '#10b981', fontSize: 11, fontWeight: 600 }}
-                    />
-                    <ReferenceLine
-                      y={100}
-                      stroke="#f59e0b"
-                      strokeDasharray="3 3"
-                      label={{
-                        value: 'Moderate (100)',
-                        fill: '#f59e0b',
-                        fontSize: 11,
-                        fontWeight: 600
-                      }}
-                    />
-                    <ReferenceLine
-                      y={150}
-                      stroke="#ea580c"
-                      strokeDasharray="3 3"
-                      label={{
-                        value: 'Unhealthy (150)',
-                        fill: '#ea580c',
-                        fontSize: 11,
-                        fontWeight: 600
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="aqi"
-                      stroke={currentColor}
-                      strokeWidth={3}
-                      fillOpacity={1}
-                      fill="url(#chartGradient)"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Threshold legend */}
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-[var(--color-text-secondary)]">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#10b981]"></span>
-                  <span>0–50 Good</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#f59e0b]"></span>
-                  <span>51–100 Moderate</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#ea580c]"></span>
-                  <span>101–150 Sensitive</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#dc2626]"></span>
-                  <span>151+ Unhealthy</span>
-                </div>
-              </div>
-            </div>
+            <HourlyTrendChart data={city.hourlyTrend} currentColor={currentColor} axisColor={axisColor} />
           ) : (
-            <div>
-              {/* 7-Day Forecast Bar Chart */}
-              <div className="h-72 sm:h-80 w-full" aria-label="7-day daily forecast AQI chart">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={city.dailyForecast}
-                    margin={{ top: 15, right: 10, left: -20, bottom: 0 }}
-                  >
-                    <XAxis
-                      dataKey="day"
-                      stroke={axisColor}
-                      fontSize={12}
-                      fontWeight={500}
-                      tickLine={false}
-                    />
-                    <YAxis
-                      stroke={axisColor}
-                      fontSize={12}
-                      fontWeight={500}
-                      tickLine={false}
-                      domain={[0, 'dataMax + 40']}
-                    />
-                    <Tooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          return (
-                            <div className="p-3 bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-xl shadow-xl text-xs space-y-1">
-                              <span className="font-bold text-[var(--color-text-primary)] block border-b border-[var(--color-border)] pb-1">
-                                {data.day}, {data.date}
-                              </span>
-                              <div className="flex justify-between gap-4 pt-1">
-                                <span className="text-[var(--color-text-secondary)]">
-                                  Forecast AQI:
-                                </span>
-                                <span className="font-bold text-[var(--color-text-primary)]">
-                                  {data.aqi}
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4">
-                                <span className="text-[var(--color-text-secondary)]">
-                                  Category:
-                                </span>
-                                <span className="font-bold text-[var(--color-text-primary)]">
-                                  {data.category}
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4">
-                                <span className="text-[var(--color-text-secondary)]">Range:</span>
-                                <span className="font-semibold text-[var(--color-text-primary)]">
-                                  {data.minAqi} – {data.maxAqi} AQI
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Bar dataKey="aqi" radius={[8, 8, 0, 0]} fill={currentColor} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* 7-Day Day Pills Grid */}
-              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-                {city.dailyForecast.map((day) => {
-                  const dayColor = getAQIColorHex(day.aqi);
-                  return (
-                    <div
-                      key={day.day}
-                      className="p-2.5 rounded-xl bg-[var(--color-bg-base)] border border-[var(--color-border)] text-center"
-                    >
-                      <span className="text-xs font-bold text-[var(--color-text-primary)] block">
-                        {day.day}
-                      </span>
-                      <span className="text-sm font-bold block my-0.5" style={{ color: dayColor }}>
-                        {day.aqi}
-                      </span>
-                      <span className="text-xs text-[var(--color-text-secondary)] block truncate">
-                        {day.weatherCondition}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <DailyForecastChart data={city.dailyForecast} currentColor={currentColor} axisColor={axisColor} />
           )}
         </div>
       </div>

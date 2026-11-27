@@ -68,6 +68,7 @@ export interface CityAirData {
   currentAqi: number;
   category: AQICategory;
   updatedAt: string;
+  dataSource?: 'live' | 'fallback';
   image?: string;
   inversionAdvisory?: InversionAdvisory;
   weather: {

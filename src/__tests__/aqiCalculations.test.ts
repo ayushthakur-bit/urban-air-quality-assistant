@@ -4,7 +4,7 @@ import {
   getAQIColorHex,
   getAQIBadgeClasses,
   AQI_SCALE_INFO
-} from '../data/mockData';
+} from '../constants/aqi';
 
 describe('AQI Scale & Categorization Logic', () => {
   it('correctly maps AQI values to their exact standard EPA/WHO categories at boundaries', () => {

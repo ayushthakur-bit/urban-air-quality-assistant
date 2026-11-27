@@ -64,7 +64,7 @@ describe('UI Component Interaction & Accessibility Tests', () => {
 
       // Click a nav link inside the mobile menu
       const howItHelpsLinks = screen.getAllByText('How It Helps');
-      fireEvent.click(howItHelpsLinks[howItHelpsLinks.length - 1]);
+      fireEvent.click(howItHelpsLinks[howItHelpsLinks.length - 1]!);
 
       // Reopen and test about trigger and AI trigger in mobile menu
       fireEvent.click(screen.getByLabelText(/Open navigation menu/i));
@@ -74,14 +74,14 @@ describe('UI Component Interaction & Accessibility Tests', () => {
 
       fireEvent.click(screen.getByLabelText(/Open navigation menu/i));
       const aboutButtons = screen.getAllByText('About');
-      fireEvent.click(aboutButtons[aboutButtons.length - 1]);
+      fireEvent.click(aboutButtons[aboutButtons.length - 1]!);
       expect(handleOpenAbout).toHaveBeenCalled();
     });
   });
 
   describe('AirQualityCharts Tab Switching & Interactivity', () => {
     it('switches between 24-hour and 7-day forecast views', () => {
-      const mockCity = CITIES_DATABASE[0];
+      const mockCity = CITIES_DATABASE[0]!;
       render(<AirQualityCharts city={mockCity} isDarkMode={false} />);
 
       expect(screen.getByText(/Air Quality Trends & Forecast/i)).toBeDefined();
@@ -131,7 +131,7 @@ describe('UI Component Interaction & Accessibility Tests', () => {
 
       render(
         <Hero
-          currentCity={CITIES_DATABASE[0]}
+          currentCity={CITIES_DATABASE[0]!}
           onSelectCity={handleSelect}
           onLocateUser={handleLocate}
           isLocating={false}
@@ -160,7 +160,7 @@ describe('UI Component Interaction & Accessibility Tests', () => {
 
       render(
         <Hero
-          currentCity={CITIES_DATABASE[0]}
+          currentCity={CITIES_DATABASE[0]!}
           onSelectCity={handleSelect}
           onLocateUser={handleLocate}
           isLocating={false}
@@ -184,7 +184,7 @@ describe('UI Component Interaction & Accessibility Tests', () => {
 
       render(
         <Hero
-          currentCity={CITIES_DATABASE[0]}
+          currentCity={CITIES_DATABASE[0]!}
           onSelectCity={handleSelect}
           onLocateUser={handleLocate}
           isLocating={false}

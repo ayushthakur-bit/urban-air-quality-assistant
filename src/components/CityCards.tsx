@@ -1,6 +1,7 @@
 import React from 'react';
 import { CityAirData } from '../types';
-import { CITIES_DATABASE, getAQIBadgeClasses } from '../data/mockData';
+import { CITIES_DATABASE } from '../data/cities';
+import { getAQIBadgeClasses } from '../constants/aqi';
 import { MapPin, ArrowUpRight, CloudSun } from 'lucide-react';
 
 interface CityCardsProps {

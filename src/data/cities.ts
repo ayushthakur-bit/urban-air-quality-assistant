@@ -1646,3 +1646,9 @@ export const CITIES_DATABASE: CityAirData[] = [
     }
   }
 ];
+
+/**
+ * Standard fallback city (Delhi) used when network or geocoding fails.
+ */
+export const DEFAULT_FALLBACK_CITY: CityAirData = CITIES_DATABASE[0]!;
+

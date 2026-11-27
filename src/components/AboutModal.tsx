@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Info, ShieldCheck } from 'lucide-react';
-import { AQI_SCALE_INFO, getAQIBadgeClasses } from '../data/mockData';
+import { AQI_SCALE_INFO, getAQIBadgeClasses } from '../constants/aqi';
 
 interface AboutModalProps {
   isOpen: boolean;

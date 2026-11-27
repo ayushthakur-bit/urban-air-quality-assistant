@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { SmogAIService } from '../services/aiService';
-import { CITIES_DATABASE } from '../data/mockData';
+import { CITIES_DATABASE } from '../data/cities';
 
 describe('AeroBot Smog AI Intelligence Reasoning Engine', () => {
   const delhi = CITIES_DATABASE.find((c) => c.id === 'delhi')!;
@@ -39,5 +39,22 @@ describe('AeroBot Smog AI Intelligence Reasoning Engine', () => {
     expect(response.content).toContain('Low-Emission Daily Routine');
     expect(response.content).toContain('Anti-Idling');
     expect(response.content).toContain('CO2');
+  });
+
+  it('parses response from serverless /api/chat when online', async () => {
+    const originalFetch = global.fetch;
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ content: 'Serverless response content for test' })
+    } as Response);
+
+    const response = await SmogAIService.askAeroBot('Hello server', delhi);
+    expect(response.content).toBe('Serverless response content for test');
+    expect(response.exposureSavedPct).toBe(70);
+
+    SmogAIService.setApiKey('test');
+    expect(SmogAIService.getApiKey()).toBe('');
+
+    global.fetch = originalFetch;
   });
 });

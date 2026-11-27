@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { getPollutantBadgeClasses, CITIES_DATABASE } from '../data/mockData';
+import { getPollutantBadgeClasses } from '../constants/aqi';
+import { CITIES_DATABASE } from '../data/cities';
 
 describe('Pollutants and Standard Threshold Verification', () => {
-  const referenceCity = CITIES_DATABASE[0]; // Delhi
+  const referenceCity = CITIES_DATABASE[0]!;
 
   it('includes all 6 mandated core pollutants with valid metadata and WHO limits', () => {
     const { pollutants } = referenceCity;

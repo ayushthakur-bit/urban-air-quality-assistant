@@ -5,8 +5,8 @@ VGSCKU
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646cff.svg)](https://vitejs.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8.svg)](https://tailwindcss.com/)
-[![Vitest](https://img.shields.io/badge/Vitest-60_Tests_Passing-729b1b.svg)](https://vitest.dev/)
-[![Coverage](https://img.shields.io/badge/Coverage-83.4%25_Lines-brightgreen.svg)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-75_Tests_Passing-729b1b.svg)](https://vitest.dev/)
+[![Coverage](https://img.shields.io/badge/Coverage-96.5%25_Services-brightgreen.svg)](https://vitest.dev/)
 [![ESLint](https://img.shields.io/badge/ESLint-0_Warnings-blue.svg)](https://eslint.org/)
 [![WCAG AA](https://img.shields.io/badge/WCAG-2.1_AA_Compliant-emerald.svg)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 
@@ -29,10 +29,12 @@ UrbanAir is engineered specifically around the day-to-day realities and health p
 - **DIY Low-Cost Clean Air Defense:** Plans for \$35 Corsi-Rosenthal MERV-13 air purifiers (450 CFM CADR) and airlock sealing for non-airtight apartments.
 - **Prominent Medical Disclaimer:** Explicit notice that recommendations provide public health information and do not replace personalized physician guidance.
 
-### 2. 📊 Live Air Quality Telemetry & Gauge
-- **Dynamic AQI Gauge:** Standard color-coded radial gauge with animated count-up and instant EPA/WHO category labels (`Good`, `Moderate`, `Unhealthy for Sensitive Groups`, `Unhealthy`, `Very Unhealthy`, `Hazardous`).
-- **City Search with Geospatial Matching:** Haversine formula calculates nearest monitored metropolitan air basin or synthesizes accurate estimates for unlisted global coordinates.
-- **Pre-monitored Metros:** Delhi, Mumbai, Surat, Ahmedabad, New York, London, Tokyo, Paris, Los Angeles.
+### 2. 📊 Live Telemetry & Resilient Fallback Architecture
+- **Live Open-Meteo Telemetry:** Primary data source powered by Open-Meteo Air Quality & Weather APIs (no API key required), fetching real-time US AQI, 6 criteria pollutants (PM2.5, PM10, NO2, SO2, CO, O3), hourly diurnal trends, and 7-day forecasts.
+- **Smart In-Memory Caching & Timeout:** Requests are cached for 5 minutes (`CACHE_TTL_MS = 300,000`) and protected with an 8-second `AbortController` timeout and HTTP 429 rate-limit handling.
+- **Explicit Offline Fallback:** When offline or during network disruptions, seamlessly falls back to vetted metropolitan baselines in `src/data/cities.ts`.
+- **Visible Data Source Indicator:** The telemetry station clearly renders a `● Live Telemetry` emerald badge or a `Offline Sample Data` warning badge along with a synchronization timestamp.
+- **City Search & Geolocation:** Open-Meteo Geocoding searches global municipalities; the HTML5 Geolocation API maps GPS coordinates to the closest atmospheric basin.
 
 ### 3. 🧪 6 Criteria Pollutants Breakdown
 Deep-dive cards featuring real urban photography, live concentration readings, standard units, WHO guideline limits, and impact explanations:
@@ -48,9 +50,8 @@ Deep-dive cards featuring real urban photography, live concentration readings, s
 - **7-Day Atmospheric Forecast:** Bar chart with daily min/max AQI ranges and weather icons.
 
 ### 5. 🤖 AeroBot GenAI Smog Defense Assistant
-- Synchronized with active city telemetry and winter inversion models.
-- Built-in zero-dependency atmospheric reasoning engine for instant offline advice.
-- Optional Google Gemini API integration for live generative conversational assistance.
+- **Serverless Backend Architecture:** Chat requests route through a secure Vercel serverless function (`/api/chat`) leveraging server-side `GEMINI_API_KEY`. Zero API keys or tokens are stored in or exposed by the client browser.
+- **Zero-Dependency Atmospheric Physics Engine:** Built-in offline fallback reasoning model explains thermal inversions, ventilation windows, N95 respirators, and Corsi-Rosenthal DIY purifiers even when offline.
 
 ---
 
@@ -163,9 +164,11 @@ pnpm build
 ```
 
 ### Coverage Highlights:
-- **Total Tests Passed:** 60 / 60 (100%)
-- **Lines Coverage:** 83.45%
-- **Statements Coverage:** 82.78%
+- **Total Tests Passed:** 75 / 75 (100% across 10 suites)
+- **Services Coverage:** 96.53% Lines, 97.43% Functions
+- **Utils Coverage:** 100% Lines, 100% Functions
+- **Accessibility:** 5/5 WCAG 2.1 AA automated audits passing via `jest-axe`
+- **TypeScript:** Strict mode enabled (`noUncheckedIndexedAccess`, zero `any`)
 - **ESLint Status:** 0 warnings, 0 errors
 
 ---
