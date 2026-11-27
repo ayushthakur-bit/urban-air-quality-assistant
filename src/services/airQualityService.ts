@@ -22,10 +22,18 @@ export function validateCitySearchInput(query: string): ValidationResult {
   }
   const sanitized = sanitizeInput(query, 60);
   if (sanitized.length < 2) {
-    return { isValid: false, sanitized, errorMessage: 'City name must be at least 2 characters long.' };
+    return {
+      isValid: false,
+      sanitized,
+      errorMessage: 'City name must be at least 2 characters long.'
+    };
   }
   if (/^\d+$/.test(sanitized)) {
-    return { isValid: false, sanitized, errorMessage: 'Please enter an alphabetic city name, not solely numbers.' };
+    return {
+      isValid: false,
+      sanitized,
+      errorMessage: 'Please enter an alphabetic city name, not solely numbers.'
+    };
   }
   return { isValid: true, sanitized };
 }
@@ -72,12 +80,60 @@ function buildSyntheticPollutants(baseAqi: number): CityAirData['pollutants'] {
   const o3 = Number((baseAqi * 0.35).toFixed(1));
 
   return {
-    pm25: { code: 'PM2.5', name: 'Fine Particulate Matter', value: pm25, unit: 'µg/m³', status: getStatus(pm25, WHO_STANDARD_LIMITS.pm25), standardLimit: WHO_STANDARD_LIMITS.pm25, explanation: 'Combustion particles from traffic & industry.' },
-    pm10: { code: 'PM10', name: 'Coarse Particulates', value: pm10, unit: 'µg/m³', status: getStatus(pm10, WHO_STANDARD_LIMITS.pm10), standardLimit: WHO_STANDARD_LIMITS.pm10, explanation: 'Suspended dust and mechanical abrasion.' },
-    no2: { code: 'NO2', name: 'Nitrogen Dioxide', value: no2, unit: 'µg/m³', status: getStatus(no2, WHO_STANDARD_LIMITS.no2), standardLimit: WHO_STANDARD_LIMITS.no2, explanation: 'Vehicle emissions causing respiratory irritation.' },
-    so2: { code: 'SO2', name: 'Sulfur Dioxide', value: so2, unit: 'µg/m³', status: getStatus(so2, WHO_STANDARD_LIMITS.so2), standardLimit: WHO_STANDARD_LIMITS.so2, explanation: 'Industrial power generation byproduct.' },
-    co: { code: 'CO', name: 'Carbon Monoxide', value: co, unit: 'mg/m³', status: getStatus(co, WHO_STANDARD_LIMITS.co), standardLimit: WHO_STANDARD_LIMITS.co, explanation: 'Incomplete combustion exhaust.' },
-    o3: { code: 'O3', name: 'Ozone', value: o3, unit: 'µg/m³', status: getStatus(o3, WHO_STANDARD_LIMITS.o3), standardLimit: WHO_STANDARD_LIMITS.o3, explanation: 'Photochemical smog secondary oxidant.' }
+    pm25: {
+      code: 'PM2.5',
+      name: 'Fine Particulate Matter',
+      value: pm25,
+      unit: 'µg/m³',
+      status: getStatus(pm25, WHO_STANDARD_LIMITS.pm25),
+      standardLimit: WHO_STANDARD_LIMITS.pm25,
+      explanation: 'Combustion particles from traffic & industry.'
+    },
+    pm10: {
+      code: 'PM10',
+      name: 'Coarse Particulates',
+      value: pm10,
+      unit: 'µg/m³',
+      status: getStatus(pm10, WHO_STANDARD_LIMITS.pm10),
+      standardLimit: WHO_STANDARD_LIMITS.pm10,
+      explanation: 'Suspended dust and mechanical abrasion.'
+    },
+    no2: {
+      code: 'NO2',
+      name: 'Nitrogen Dioxide',
+      value: no2,
+      unit: 'µg/m³',
+      status: getStatus(no2, WHO_STANDARD_LIMITS.no2),
+      standardLimit: WHO_STANDARD_LIMITS.no2,
+      explanation: 'Vehicle emissions causing respiratory irritation.'
+    },
+    so2: {
+      code: 'SO2',
+      name: 'Sulfur Dioxide',
+      value: so2,
+      unit: 'µg/m³',
+      status: getStatus(so2, WHO_STANDARD_LIMITS.so2),
+      standardLimit: WHO_STANDARD_LIMITS.so2,
+      explanation: 'Industrial power generation byproduct.'
+    },
+    co: {
+      code: 'CO',
+      name: 'Carbon Monoxide',
+      value: co,
+      unit: 'mg/m³',
+      status: getStatus(co, WHO_STANDARD_LIMITS.co),
+      standardLimit: WHO_STANDARD_LIMITS.co,
+      explanation: 'Incomplete combustion exhaust.'
+    },
+    o3: {
+      code: 'O3',
+      name: 'Ozone',
+      value: o3,
+      unit: 'µg/m³',
+      status: getStatus(o3, WHO_STANDARD_LIMITS.o3),
+      standardLimit: WHO_STANDARD_LIMITS.o3,
+      explanation: 'Photochemical smog secondary oxidant.'
+    }
   };
 }
 
@@ -147,15 +203,33 @@ export function generateEstimatedCityData(cityName: string, explicitAqi?: number
     currentAqi: baseAqi,
     category: getCategoryFromAQI(baseAqi),
     updatedAt: 'Just now (Live Interpolation)',
-    weather: { temp: 18, humidity: 55, windSpeed: 8, condition: isHigh ? 'Atmospheric Haze' : 'Partly Cloudy' },
+    weather: {
+      temp: 18,
+      humidity: 55,
+      windSpeed: 8,
+      condition: isHigh ? 'Atmospheric Haze' : 'Partly Cloudy'
+    },
     pollutants: buildSyntheticPollutants(baseAqi),
     hourlyTrend: buildSyntheticHourly(baseAqi),
     dailyForecast: buildSyntheticDaily(baseAqi),
     healthAdvice: {
-      mask: { required: isHigh, type: isHigh ? 'N95 Respirator' : 'Optional', advice: isHigh ? 'Wear N95 outdoors.' : 'No mask required.' },
-      exercise: { allowed: !isHigh, advice: isHigh ? 'Move workouts indoors.' : 'Safe for outdoor exercise.' },
-      sensitiveGroups: { warning: baseAqi > 100, advice: 'Vulnerable individuals should limit prolonged outdoor exertion.' },
-      ventilation: { openWindows: !isHigh, advice: isHigh ? 'Keep windows sealed; use filtration.' : 'Safe natural ventilation.' }
+      mask: {
+        required: isHigh,
+        type: isHigh ? 'N95 Respirator' : 'Optional',
+        advice: isHigh ? 'Wear N95 outdoors.' : 'No mask required.'
+      },
+      exercise: {
+        allowed: !isHigh,
+        advice: isHigh ? 'Move workouts indoors.' : 'Safe for outdoor exercise.'
+      },
+      sensitiveGroups: {
+        warning: baseAqi > 100,
+        advice: 'Vulnerable individuals should limit prolonged outdoor exertion.'
+      },
+      ventilation: {
+        openWindows: !isHigh,
+        advice: isHigh ? 'Keep windows sealed; use filtration.' : 'Safe natural ventilation.'
+      }
     }
   };
 }

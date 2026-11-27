@@ -21,7 +21,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border-t border-[var(--color-border)] bg-[var(--color-bg-surface)] flex gap-2">
+    <form
+      onSubmit={handleSubmit}
+      className="p-4 border-t border-[var(--color-border)] bg-[var(--color-bg-surface)] flex gap-2"
+    >
       <input
         type="text"
         value={inputPrompt}

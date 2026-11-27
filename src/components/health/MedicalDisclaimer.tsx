@@ -16,7 +16,11 @@ export const MedicalDisclaimer: React.FC = () => {
         <span className="font-bold block mb-0.5 text-amber-950 dark:text-amber-100">
           Medical & Clinical Health Disclaimer
         </span>
-        Health recommendations and air quality precautions provided by UrbanAir are for general informational, educational, and preventive awareness only. They do not constitute certified medical diagnosis, individualized clinical advice, or treatment plans. Individuals with chronic cardiopulmonary disorders, asthma, pregnancy, or acute symptoms must consult their licensed physician or emergency medical provider.
+        Health recommendations and air quality precautions provided by UrbanAir are for general
+        informational, educational, and preventive awareness only. They do not constitute certified
+        medical diagnosis, individualized clinical advice, or treatment plans. Individuals with
+        chronic cardiopulmonary disorders, asthma, pregnancy, or acute symptoms must consult their
+        licensed physician or emergency medical provider.
       </div>
     </div>
   );

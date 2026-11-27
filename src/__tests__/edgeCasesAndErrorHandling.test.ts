@@ -1,14 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { 
-  getCategoryFromAQI, 
-  getAQIColorHex, 
-  AQI_COLORS 
-} from '../constants/aqi';
-import { 
-  validateCitySearchInput, 
-  findNearestCity, 
-  generateEstimatedCityData, 
-  formatPollutantValue 
+import { getCategoryFromAQI, getAQIColorHex, AQI_COLORS } from '../constants/aqi';
+import {
+  validateCitySearchInput,
+  findNearestCity,
+  generateEstimatedCityData,
+  formatPollutantValue
 } from '../services/airQualityService';
 import { SmogAIService } from '../services/aiService';
 import { CITIES_DATABASE } from '../data/cities';
@@ -105,7 +101,10 @@ describe('Edge Cases and Robust Error Handling Suite', () => {
       global.fetch = vi.fn().mockRejectedValue(new Error('Network offline or ECONNREFUSED'));
 
       SmogAIService.setApiKey('AIzaSyMockFaultyKey');
-      const response = await SmogAIService.askAeroBot('What should I do during high smog?', CITIES_DATABASE[0]!);
+      const response = await SmogAIService.askAeroBot(
+        'What should I do during high smog?',
+        CITIES_DATABASE[0]!
+      );
 
       expect(response).toBeDefined();
       expect(response.content).toContain('AeroBot');

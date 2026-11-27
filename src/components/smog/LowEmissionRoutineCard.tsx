@@ -7,7 +7,9 @@ interface LowEmissionRoutinesSectionProps {
 }
 
 /** Section rendering quantified low-emission community action cards. */
-export const LowEmissionRoutinesSection: React.FC<LowEmissionRoutinesSectionProps> = ({ routines }) => {
+export const LowEmissionRoutinesSection: React.FC<LowEmissionRoutinesSectionProps> = ({
+  routines
+}) => {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">

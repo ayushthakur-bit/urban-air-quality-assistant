@@ -49,7 +49,13 @@ During winter temperature stagnation, ground-level vehicle exhaust is trapped un
     return `😷 **Respiratory Mask Protocol:**
 At AQI ${aqi}, cloth and surgical masks offer <15% filtration of PM2.5 soot. Use a certified **N95, KN95, or FFP2 respirator** with a tight facial seal. Avoid exhaust valves if protecting immunocompromised household members.`;
   }
-  if (p.includes('child') || p.includes('baby') || p.includes('kid') || p.includes('elderly') || p.includes('asthma')) {
+  if (
+    p.includes('child') ||
+    p.includes('baby') ||
+    p.includes('kid') ||
+    p.includes('elderly') ||
+    p.includes('asthma')
+  ) {
     return `👶 **Vulnerable Group Protocol for ${city}:**
 Children breathe up to 50% more air per pound than adults. Keep children and older adults indoors today. Keep rescue inhalers primed for asthma sufferers. Create a clean bedroom sanctuary with a high-CADR HEPA cleaner.`;
   }

@@ -35,12 +35,16 @@ export const HealthAdviceCard: React.FC<HealthAdviceCardProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
           <div className="absolute top-3 left-3">{icon}</div>
           <div className="absolute bottom-2.5 left-3 right-3">
-            <span className="text-white font-bold text-sm drop-shadow-md image-text-overlay">{title}</span>
+            <span className="text-white font-bold text-sm drop-shadow-md image-text-overlay">
+              {title}
+            </span>
           </div>
         </div>
 
         <div className="p-5">
-          <span className={`inline-block text-xs font-bold px-2.5 py-1 rounded-full mb-3 shadow-sm ${badgeClass}`}>
+          <span
+            className={`inline-block text-xs font-bold px-2.5 py-1 rounded-full mb-3 shadow-sm ${badgeClass}`}
+          >
             {badgeText}
           </span>
           <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{advice}</p>

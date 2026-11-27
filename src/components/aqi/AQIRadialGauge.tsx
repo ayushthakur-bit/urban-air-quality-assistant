@@ -9,7 +9,11 @@ interface AQIRadialGaugeProps {
 }
 
 /** Semicircular animated SVG radial gauge displaying numerical AQI score. */
-export const AQIRadialGauge: React.FC<AQIRadialGaugeProps> = ({ currentAqi, category, currentColor }) => {
+export const AQIRadialGauge: React.FC<AQIRadialGaugeProps> = ({
+  currentAqi,
+  category,
+  currentColor
+}) => {
   const [displayedAqi, setDisplayedAqi] = useState(0);
 
   useEffect(() => {

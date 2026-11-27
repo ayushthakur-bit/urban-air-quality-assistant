@@ -21,7 +21,9 @@ describe('Open-Meteo Air Quality Service Suite', () => {
         ok: true,
         status: 200,
         json: async () => ({
-          results: [{ id: 101, name: 'Berlin', latitude: 52.52, longitude: 13.405, country: 'Germany' }]
+          results: [
+            { id: 101, name: 'Berlin', latitude: 52.52, longitude: 13.405, country: 'Germany' }
+          ]
         })
       });
 
@@ -51,7 +53,9 @@ describe('Open-Meteo Air Quality Service Suite', () => {
             ok: true,
             status: 200,
             json: async () => ({
-              results: [{ id: 1, name: 'Tokyo', latitude: 35.68, longitude: 139.76, country: 'Japan' }]
+              results: [
+                { id: 1, name: 'Tokyo', latitude: 35.68, longitude: 139.76, country: 'Japan' }
+              ]
             })
           });
         }
@@ -60,8 +64,20 @@ describe('Open-Meteo Air Quality Service Suite', () => {
             ok: true,
             status: 200,
             json: async () => ({
-              current: { us_aqi: 42, pm2_5: 10.2, pm10: 22.1, carbon_monoxide: 300, nitrogen_dioxide: 18, sulphur_dioxide: 8, ozone: 25 },
-              hourly: { time: ['2026-11-23T00:00', '2026-11-23T03:00'], us_aqi: [40, 45], pm2_5: [10, 12] },
+              current: {
+                us_aqi: 42,
+                pm2_5: 10.2,
+                pm10: 22.1,
+                carbon_monoxide: 300,
+                nitrogen_dioxide: 18,
+                sulphur_dioxide: 8,
+                ozone: 25
+              },
+              hourly: {
+                time: ['2026-11-23T00:00', '2026-11-23T03:00'],
+                us_aqi: [40, 45],
+                pm2_5: [10, 12]
+              },
               daily: { time: ['2026-11-23'], us_aqi_max: [50], us_aqi_min: [35] }
             })
           });
@@ -89,7 +105,9 @@ describe('Open-Meteo Air Quality Service Suite', () => {
             ok: true,
             status: 200,
             json: async () => ({
-              results: [{ id: 2, name: 'Delhi', latitude: 28.61, longitude: 77.2, country: 'India' }]
+              results: [
+                { id: 2, name: 'Delhi', latitude: 28.61, longitude: 77.2, country: 'India' }
+              ]
             })
           });
         }
@@ -126,7 +144,15 @@ describe('Open-Meteo Air Quality Service Suite', () => {
         ok: true,
         status: 200,
         json: async () => ({
-          current: { us_aqi: 78, pm2_5: 24, pm10: 48, carbon_monoxide: 400, nitrogen_dioxide: 20, sulphur_dioxide: 10, ozone: 30 }
+          current: {
+            us_aqi: 78,
+            pm2_5: 24,
+            pm10: 48,
+            carbon_monoxide: 400,
+            nitrogen_dioxide: 20,
+            sulphur_dioxide: 10,
+            ozone: 30
+          }
         })
       });
 
@@ -150,6 +176,61 @@ describe('Open-Meteo Air Quality Service Suite', () => {
       setCachedAirQuality('item', DEFAULT_FALLBACK_CITY);
       clearAirQualityCache();
       expect(getCachedAirQuality('item')).toBeNull();
+    });
+
+    it('returns null for expired cache entries', () => {
+      const mockCity = { ...DEFAULT_FALLBACK_CITY, name: 'ExpiredCity' };
+      setCachedAirQuality('expiredcity', mockCity);
+
+      // Advance Date.now or mock it
+      const originalNow = Date.now;
+      Date.now = vi.fn().mockReturnValue(originalNow() + 600000); // 10 minutes later
+
+      expect(getCachedAirQuality('expiredcity')).toBeNull();
+      Date.now = originalNow;
+    });
+
+    it('handles HTTP 500 server errors cleanly and serves fallback data', async () => {
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: 'Internal server error' })
+      });
+
+      const outcome = await fetchLiveAirQuality('Berlin', { forceRefresh: true });
+      expect(outcome.isLive).toBe(false);
+      expect(outcome.data.dataSource).toBe('fallback');
+    });
+
+    it('handles empty hourly and daily responses cleanly', async () => {
+      global.fetch = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('geocoding-api')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: async () => ({
+              results: [
+                { id: 8, name: 'Sydney', latitude: -33.86, longitude: 151.2, country: 'Australia' }
+              ]
+            })
+          });
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            current: { us_aqi: 25, pm2_5: 6, pm10: 12 },
+            hourly: {},
+            daily: {}
+          })
+        });
+      });
+
+      const outcome = await fetchLiveAirQuality('Sydney', { forceRefresh: true });
+      expect(outcome.isLive).toBe(true);
+      expect(outcome.data.name).toBe('Sydney');
+      expect(outcome.data.hourlyTrend.length).toBeGreaterThan(0);
+      expect(outcome.data.dailyForecast.length).toBeGreaterThan(0);
     });
   });
 });

@@ -6,7 +6,10 @@ interface SuggestedPromptsProps {
 }
 
 /** Clickable prompt pills for quick community air quality inquiries. */
-export const SuggestedPrompts: React.FC<SuggestedPromptsProps> = ({ suggestions, onSelectPrompt }) => {
+export const SuggestedPrompts: React.FC<SuggestedPromptsProps> = ({
+  suggestions,
+  onSelectPrompt
+}) => {
   if (!suggestions || suggestions.length === 0) return null;
 
   return (

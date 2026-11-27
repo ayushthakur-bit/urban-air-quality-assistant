@@ -32,7 +32,8 @@ export const CreditsModal: React.FC<CreditsModalProps> = ({ isOpen, onClose }) =
                 Image Credits & Attribution
               </h3>
               <p className="text-xs text-[var(--color-text-secondary)]">
-                All assets are converted to WebP and licensed under royalty-free Unsplash and Pixabay terms.
+                All assets are converted to WebP and licensed under royalty-free Unsplash and
+                Pixabay terms.
               </p>
             </div>
           </div>
@@ -51,7 +52,8 @@ export const CreditsModal: React.FC<CreditsModalProps> = ({ isOpen, onClose }) =
           <div className="mb-4 flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-900 dark:text-emerald-200">
             <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
             <span>
-              Self-contained offline assets saved locally in <code>/public/assets/images</code> with fixed aspect ratios and zero third-party hotlinking.
+              Self-contained offline assets saved locally in <code>/public/assets/images</code> with
+              fixed aspect ratios and zero third-party hotlinking.
             </span>
           </div>
 
@@ -68,10 +70,18 @@ export const CreditsModal: React.FC<CreditsModalProps> = ({ isOpen, onClose }) =
               <tbody className="divide-y divide-[var(--color-border)] text-[var(--color-text-primary)]">
                 {CREDITS_DATA.map((row, idx) => (
                   <tr key={idx} className="hover:bg-[var(--color-bg-base)]/60 transition-colors">
-                    <td className="py-2.5 px-4 font-semibold text-[var(--color-text-primary)]">{row.section}</td>
-                    <td className="py-2.5 px-4 font-mono text-xs text-[#2563eb] dark:text-[#60a5fa]">{row.filename}</td>
-                    <td className="py-2.5 px-4 text-[var(--color-text-secondary)]">{row.photographer}</td>
-                    <td className="py-2.5 px-4 text-emerald-600 dark:text-emerald-400 font-semibold">{row.source}</td>
+                    <td className="py-2.5 px-4 font-semibold text-[var(--color-text-primary)]">
+                      {row.section}
+                    </td>
+                    <td className="py-2.5 px-4 font-mono text-xs text-[#2563eb] dark:text-[#60a5fa]">
+                      {row.filename}
+                    </td>
+                    <td className="py-2.5 px-4 text-[var(--color-text-secondary)]">
+                      {row.photographer}
+                    </td>
+                    <td className="py-2.5 px-4 text-emerald-600 dark:text-emerald-400 font-semibold">
+                      {row.source}
+                    </td>
                   </tr>
                 ))}
               </tbody>

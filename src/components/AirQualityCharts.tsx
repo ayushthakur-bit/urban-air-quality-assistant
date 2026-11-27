@@ -77,9 +77,17 @@ export const AirQualityCharts: React.FC<AirQualityChartsProps> = ({ city, isDark
         {/* Chart View Content */}
         <div className="pt-6">
           {activeChartTab === '24h' ? (
-            <HourlyTrendChart data={city.hourlyTrend} currentColor={currentColor} axisColor={axisColor} />
+            <HourlyTrendChart
+              data={city.hourlyTrend}
+              currentColor={currentColor}
+              axisColor={axisColor}
+            />
           ) : (
-            <DailyForecastChart data={city.dailyForecast} currentColor={currentColor} axisColor={axisColor} />
+            <DailyForecastChart
+              data={city.dailyForecast}
+              currentColor={currentColor}
+              axisColor={axisColor}
+            />
           )}
         </div>
       </div>

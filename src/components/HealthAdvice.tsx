@@ -29,7 +29,8 @@ export const HealthAdvice: React.FC<HealthAdviceProps> = ({ city }) => {
           Personal Health Recommendations
         </h2>
         <p className="text-base text-[var(--color-text-secondary)] mt-2">
-          Practical, actionable guidelines based on the current AQI ({city.currentAqi} – {city.category}) in {city.name}.
+          Practical, actionable guidelines based on the current AQI ({city.currentAqi} –{' '}
+          {city.category}) in {city.name}.
         </p>
       </div>
 
@@ -66,8 +67,12 @@ export const HealthAdvice: React.FC<HealthAdviceProps> = ({ city }) => {
           image="/assets/images/tip-sensitive-groups.webp"
           alt="Vulnerable populations including children and elderly walking in clean environment"
           title="Sensitive Groups"
-          badgeText={healthAdvice.sensitiveGroups.warning ? 'Precaution Advised' : 'No Specific Risks'}
-          badgeClass={healthAdvice.sensitiveGroups.warning ? 'badge-aqi-unhealthy' : 'badge-aqi-good'}
+          badgeText={
+            healthAdvice.sensitiveGroups.warning ? 'Precaution Advised' : 'No Specific Risks'
+          }
+          badgeClass={
+            healthAdvice.sensitiveGroups.warning ? 'badge-aqi-unhealthy' : 'badge-aqi-good'
+          }
           advice={healthAdvice.sensitiveGroups.advice}
           icon={
             <div className="w-8 h-8 rounded-xl bg-rose-500/30 backdrop-blur-md text-rose-200 flex items-center justify-center border border-rose-400/30">
@@ -80,8 +85,12 @@ export const HealthAdvice: React.FC<HealthAdviceProps> = ({ city }) => {
           image="/assets/images/tip-indoor-air.webp"
           alt="Modern residential living space with active HEPA air filtration and indoor purifying plants"
           title="Indoor Air & Purifiers"
-          badgeText={healthAdvice.ventilation.openWindows ? 'Open Windows Safe' : 'Keep Windows Closed'}
-          badgeClass={healthAdvice.ventilation.openWindows ? 'badge-aqi-good' : 'badge-aqi-moderate'}
+          badgeText={
+            healthAdvice.ventilation.openWindows ? 'Open Windows Safe' : 'Keep Windows Closed'
+          }
+          badgeClass={
+            healthAdvice.ventilation.openWindows ? 'badge-aqi-good' : 'badge-aqi-moderate'
+          }
           advice={healthAdvice.ventilation.advice}
           icon={
             <div className="w-8 h-8 rounded-xl bg-blue-500/30 backdrop-blur-md text-blue-200 flex items-center justify-center border border-blue-400/30">

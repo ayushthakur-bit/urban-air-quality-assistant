@@ -40,7 +40,9 @@ export const AQIScaleCard: React.FC<AQIScaleCardProps> = ({ level, isCurrentMatc
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
 
           <div className="absolute top-3 right-3">
-            <span className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold shadow-md ${getAQIBadgeClasses(level.name)}`}>
+            <span
+              className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold shadow-md ${getAQIBadgeClasses(level.name)}`}
+            >
               {level.range}
             </span>
           </div>
@@ -77,7 +79,11 @@ export const AQIScaleCard: React.FC<AQIScaleCardProps> = ({ level, isCurrentMatc
         </div>
       </div>
 
-      <div className="h-1.5 w-full" style={{ backgroundColor: level.colorHex }} aria-hidden="true" />
+      <div
+        className="h-1.5 w-full"
+        style={{ backgroundColor: level.colorHex }}
+        aria-hidden="true"
+      />
     </div>
   );
 };

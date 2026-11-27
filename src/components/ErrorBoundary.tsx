@@ -30,7 +30,13 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   private handleReset = (): void => {
     this.setState({ hasError: false, error: undefined });
-    window.location.reload();
+    if (typeof window !== 'undefined' && typeof window.location?.reload === 'function') {
+      try {
+        window.location.reload();
+      } catch {
+        // Fallback for jsdom test environments
+      }
+    }
   };
 
   public render(): ReactNode {

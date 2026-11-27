@@ -148,9 +148,7 @@ describe('UI Component Interaction & Accessibility Tests', () => {
       const form = input.closest('form')!;
       fireEvent.submit(form);
 
-      expect(handleSelect).toHaveBeenCalledWith(
-        expect.objectContaining({ name: 'Mumbai' })
-      );
+      expect(handleSelect).toHaveBeenCalledWith(expect.objectContaining({ name: 'Mumbai' }));
     });
 
     it('triggers custom city creation when a non-indexed city name is searched', () => {
@@ -203,6 +201,39 @@ describe('UI Component Interaction & Accessibility Tests', () => {
       expect(handleCustom).not.toHaveBeenCalled();
       expect(screen.getByRole('alert')).toBeDefined();
     });
+
+    it('displays suggestions dropdown, allows clicking a suggestion, and clears input', () => {
+      const handleSelect = vi.fn();
+      render(
+        <Hero
+          currentCity={CITIES_DATABASE[0]!}
+          onSelectCity={handleSelect}
+          onLocateUser={vi.fn()}
+          isLocating={false}
+          onSearchCustom={vi.fn()}
+        />
+      );
+
+      const input = screen.getByPlaceholderText(/search city/i);
+      fireEvent.change(input, { target: { value: 'Del' } });
+
+      // Suggestions dropdown should show Delhi
+      const delhiMatches = screen.getAllByText('Delhi');
+      expect(delhiMatches.length).toBeGreaterThan(0);
+
+      fireEvent.click(delhiMatches[delhiMatches.length - 1]!);
+      expect(handleSelect).toHaveBeenCalled();
+
+      // Re-type and click clear button
+      fireEvent.change(input, { target: { value: 'Mumbai' } });
+      const clearBtn = screen.getByLabelText(/Clear search input/i);
+      fireEvent.click(clearBtn);
+      expect((input as HTMLInputElement).value).toBe('');
+
+      // Focus and click outside
+      fireEvent.focus(input);
+      fireEvent.mouseDown(document.body);
+    });
   });
 
   describe('ErrorBoundary Component', () => {
@@ -241,7 +272,9 @@ describe('UI Component Interaction & Accessibility Tests', () => {
       expect(screen.getByText(/Inversion Breakup Ventilation Windows/i)).toBeDefined();
       expect(screen.getByText(/Affordable DIY Indoor Aerosol Defense/i)).toBeDefined();
 
-      const askBtn = screen.getByLabelText(/Open AeroBot AI Assistant for personalized resident guidance/i);
+      const askBtn = screen.getByLabelText(
+        /Open AeroBot AI Assistant for personalized resident guidance/i
+      );
       fireEvent.click(askBtn);
       expect(handleOpenAI).toHaveBeenCalledTimes(1);
     });

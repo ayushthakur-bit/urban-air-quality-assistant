@@ -20,7 +20,10 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
       {messages.map((msg) => (
-        <div key={msg.id} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+        <div
+          key={msg.id}
+          className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+        >
           {msg.role === 'assistant' && (
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
               <Bot className="w-4 h-4" />
@@ -34,7 +37,9 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
                 : 'bg-[var(--color-bg-base)] text-[var(--color-text-primary)] border border-[var(--color-border)]'
             }`}
           >
-            <div className="whitespace-pre-line prose dark:prose-invert max-w-none text-sm">{msg.content}</div>
+            <div className="whitespace-pre-line prose dark:prose-invert max-w-none text-sm">
+              {msg.content}
+            </div>
 
             {msg.impactData && (
               <div className="mt-3 pt-3 border-t border-[var(--color-border)] flex flex-wrap gap-2 text-xs">

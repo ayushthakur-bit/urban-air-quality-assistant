@@ -11,7 +11,8 @@ const CAUSES: CauseItem[] = [
     alt: 'Urban rush hour bumper-to-bumper vehicle traffic emitting tailpipe fumes',
     pollutants: ['NO2', 'CO', 'PM2.5'],
     icon: Car,
-    description: 'Internal combustion engines, diesel freight transport, and stop-and-go congestion create massive surges in tailpipe aerosols, trapped close to the ground during low morning inversion layers.',
+    description:
+      'Internal combustion engines, diesel freight transport, and stop-and-go congestion create massive surges in tailpipe aerosols, trapped close to the ground during low morning inversion layers.',
     mitigation: 'EV transition, rapid transit corridors, odd-even traffic rationing.'
   },
   {
@@ -22,8 +23,10 @@ const CAUSES: CauseItem[] = [
     alt: 'Heavy industrial manufacturing plant discharging particulate emissions and gases',
     pollutants: ['SO2', 'NO2', 'PM10'],
     icon: Factory,
-    description: 'Coal-powered thermal plants, metallurgical smelters, brick kilns, and chemical refineries discharge heavy plumes containing sulfur dioxide and ultrafine metal condensates.',
-    mitigation: 'Flue-gas desulfurization scrubbers, shift to natural gas, continuous emission monitoring.'
+    description:
+      'Coal-powered thermal plants, metallurgical smelters, brick kilns, and chemical refineries discharge heavy plumes containing sulfur dioxide and ultrafine metal condensates.',
+    mitigation:
+      'Flue-gas desulfurization scrubbers, shift to natural gas, continuous emission monitoring.'
   },
   {
     id: 'burning',
@@ -33,7 +36,8 @@ const CAUSES: CauseItem[] = [
     alt: 'Agricultural stubble burning and open biomass waste combustion causing smoke plume',
     pollutants: ['PM2.5', 'CO', 'Black Carbon'],
     icon: Flame,
-    description: 'Post-harvest seasonal crop residue burning combined with municipal solid waste combustion unleashes dense smoke sheets that drift across regional basins.',
+    description:
+      'Post-harvest seasonal crop residue burning combined with municipal solid waste combustion unleashes dense smoke sheets that drift across regional basins.',
     mitigation: 'Happy Seeder machinery, bio-decomposer sprays, biomass pellet power plants.'
   },
   {
@@ -44,7 +48,8 @@ const CAUSES: CauseItem[] = [
     alt: 'Major urban construction site machinery generating airborne fugitive dust',
     pollutants: ['PM10', 'Coarse Dust', 'Silica'],
     icon: HardHat,
-    description: 'Uncovered excavation pits, concrete pulverizing, and heavy haulage truck turbulence inject massive coarse particulate matter directly into residential street corridors.',
+    description:
+      'Uncovered excavation pits, concrete pulverizing, and heavy haulage truck turbulence inject massive coarse particulate matter directly into residential street corridors.',
     mitigation: 'Anti-smog mist water cannons, green dust netting, paved truck washing bays.'
   }
 ];
@@ -65,7 +70,8 @@ export const CausesOfPollution: React.FC = () => {
           Major Causes of Urban Air Pollution
         </h2>
         <p className="text-base text-[var(--color-text-secondary)] mt-2 leading-relaxed">
-          The primary anthropogenic and meteorological sources driving dangerous smog events and atmospheric degradation.
+          The primary anthropogenic and meteorological sources driving dangerous smog events and
+          atmospheric degradation.
         </p>
       </div>
 

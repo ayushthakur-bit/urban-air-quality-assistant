@@ -70,7 +70,11 @@ export const CitySearchInput: React.FC<CitySearchInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 relative" role="search">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col sm:flex-row items-stretch gap-3 relative"
+      role="search"
+    >
       <div className="relative flex-1">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[var(--color-placeholder)]">
           <Search className="w-5 h-5" aria-hidden="true" />
@@ -79,7 +83,10 @@ export const CitySearchInput: React.FC<CitySearchInputProps> = ({
           ref={inputRef}
           type="text"
           value={searchQuery}
-          onChange={(e) => { setSearchQuery(e.target.value); setSuggestionsOpen(true); }}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setSuggestionsOpen(true);
+          }}
           onFocus={() => setSuggestionsOpen(true)}
           placeholder="Search city (e.g. New York, London, Tokyo, Delhi)..."
           aria-label="Search city for real-time air quality"
@@ -105,17 +112,27 @@ export const CitySearchInput: React.FC<CitySearchInputProps> = ({
               <button
                 key={city.id}
                 type="button"
-                onClick={() => { onSelectCity(city); setSearchQuery(''); setSuggestionsOpen(false); }}
+                onClick={() => {
+                  onSelectCity(city);
+                  setSearchQuery('');
+                  setSuggestionsOpen(false);
+                }}
                 className="w-full px-4 py-3 flex items-center justify-between hover:bg-[var(--color-bg-base)] transition-colors text-left border-b border-[var(--color-border)] last:border-0 min-h-[44px]"
               >
                 <div className="flex items-center gap-2.5">
                   <MapPin className="w-4 h-4 text-[#3b82f6] shrink-0" />
                   <div>
-                    <span className="font-bold text-[var(--color-text-primary)] text-sm block">{city.name}</span>
-                    <span className="text-xs text-[var(--color-text-secondary)]">{city.stateOrRegion}, {city.country}</span>
+                    <span className="font-bold text-[var(--color-text-primary)] text-sm block">
+                      {city.name}
+                    </span>
+                    <span className="text-xs text-[var(--color-text-secondary)]">
+                      {city.stateOrRegion}, {city.country}
+                    </span>
                   </div>
                 </div>
-                <span className="text-xs font-bold text-[var(--color-text-primary)]">AQI {city.currentAqi}</span>
+                <span className="text-xs font-bold text-[var(--color-text-primary)]">
+                  AQI {city.currentAqi}
+                </span>
               </button>
             ))}
           </div>

@@ -45,8 +45,14 @@ export const Hero: React.FC<HeroProps> = ({
 
       {/* Floating Ambient Particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="particle-dot w-48 h-48 bg-[#3b82f6]/10 blur-3xl -top-10 -left-10" style={{ animationDuration: '10s' }} />
-        <div className="particle-dot w-64 h-64 bg-[#60a5fa]/10 blur-3xl top-20 right-10" style={{ animationDuration: '12s' }} />
+        <div
+          className="particle-dot w-48 h-48 bg-[#3b82f6]/10 blur-3xl -top-10 -left-10"
+          style={{ animationDuration: '10s' }}
+        />
+        <div
+          className="particle-dot w-64 h-64 bg-[#60a5fa]/10 blur-3xl top-20 right-10"
+          style={{ animationDuration: '12s' }}
+        />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
@@ -57,7 +63,8 @@ export const Hero: React.FC<HeroProps> = ({
           </span>
         </h1>
         <p className="mt-4 text-base sm:text-lg text-[var(--color-text-secondary)] max-w-[65ch] mx-auto font-normal leading-relaxed">
-          Real-time urban air quality telemetry, pollutant breakdowns, and tailored health guidance for your city.
+          Real-time urban air quality telemetry, pollutant breakdowns, and tailored health guidance
+          for your city.
         </p>
 
         <div className="mt-8 max-w-2xl mx-auto">

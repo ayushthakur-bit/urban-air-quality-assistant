@@ -30,7 +30,8 @@ export const PollutantGrid: React.FC<PollutantGridProps> = ({ city }) => {
           Core Pollutants Breakdown
         </h2>
         <p className="text-base text-[var(--color-text-secondary)] mt-2">
-          Real-time measurement and visual context for the 6 criteria pollutants monitored by the EPA and WHO.
+          Real-time measurement and visual context for the 6 criteria pollutants monitored by the
+          EPA and WHO.
         </p>
       </div>
 

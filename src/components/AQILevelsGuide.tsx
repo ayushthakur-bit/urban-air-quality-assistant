@@ -11,7 +11,8 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-good.webp',
     alt: 'Crisp clear blue sky over an urban cityscape indicating Good air quality (AQI 0-50)',
     visibility: 'Full Horizon (>10 km)',
-    healthAction: 'Air poses negligible risk. Ideal conditions for outdoor cardio and active recreation.',
+    healthAction:
+      'Air poses negligible risk. Ideal conditions for outdoor cardio and active recreation.',
     icon: Sparkles
   },
   {
@@ -22,7 +23,8 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-moderate.webp',
     alt: 'Mild atmospheric haze across urban skyline indicating Moderate air quality (AQI 51-100)',
     visibility: 'Slight Atmospheric Haze (6–9 km)',
-    healthAction: 'Acceptable for general public. Unusually sensitive individuals may notice mild throat irritation.',
+    healthAction:
+      'Acceptable for general public. Unusually sensitive individuals may notice mild throat irritation.',
     icon: Eye
   },
   {
@@ -33,7 +35,8 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-unhealthy.webp',
     alt: 'Thick smog obscuring downtown buildings during Unhealthy air conditions (AQI 151-200)',
     visibility: 'Heavy Smog Layer (2–4 km)',
-    healthAction: 'Everyone begins to experience health effects. N95 respirators advised outdoors; suspend cardio.',
+    healthAction:
+      'Everyone begins to experience health effects. N95 respirators advised outdoors; suspend cardio.',
     icon: ShieldAlert
   },
   {
@@ -44,7 +47,8 @@ const AQI_LEVELS: AQILevelItem[] = [
     image: '/assets/images/aqi-hazardous.webp',
     alt: 'Severe hazardous winter smog and dark red haze blanketing city (AQI 301+)',
     visibility: 'Critical Inversion Fog (<1 km)',
-    healthAction: 'Emergency warnings. Entire population at severe cardiovascular and respiratory risk. Stay indoors.',
+    healthAction:
+      'Emergency warnings. Entire population at severe cardiovascular and respiratory risk. Stay indoors.',
     icon: AlertOctagon
   }
 ];
@@ -68,7 +72,8 @@ export const AQILevelsGuide: React.FC<AQILevelsGuideProps> = ({ currentAqi }) =>
           Visual Air Quality Index (AQI) Reference
         </h2>
         <p className="text-base text-[var(--color-text-secondary)] mt-2">
-          How real-world urban atmospheres shift in visibility and health severity across the global AQI spectrum.
+          How real-world urban atmospheres shift in visibility and health severity across the global
+          AQI spectrum.
         </p>
       </div>
 

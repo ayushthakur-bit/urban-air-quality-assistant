@@ -5,8 +5,8 @@ VGSCKU
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646cff.svg)](https://vitejs.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8.svg)](https://tailwindcss.com/)
-[![Vitest](https://img.shields.io/badge/Vitest-75_Tests_Passing-729b1b.svg)](https://vitest.dev/)
-[![Coverage](https://img.shields.io/badge/Coverage-96.5%25_Services-brightgreen.svg)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-97_Tests_Passing-729b1b.svg)](https://vitest.dev/)
+[![Coverage](https://img.shields.io/badge/Coverage-97.7%25_Services-brightgreen.svg)](https://vitest.dev/)
 [![ESLint](https://img.shields.io/badge/ESLint-0_Warnings-blue.svg)](https://eslint.org/)
 [![WCAG AA](https://img.shields.io/badge/WCAG-2.1_AA_Compliant-emerald.svg)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 
@@ -164,12 +164,15 @@ pnpm build
 ```
 
 ### Coverage Highlights:
-- **Total Tests Passed:** 75 / 75 (100% across 10 suites)
-- **Services Coverage:** 96.53% Lines, 97.43% Functions
-- **Utils Coverage:** 100% Lines, 100% Functions
+- **Total Tests Passed:** 97 / 97 (100% across 14 suites)
+- **Services Coverage:** 97.68% Lines, 97.43% Functions
+- **Utils & Storage Coverage:** 100% Lines, 100% Functions
+- **Hooks Coverage:** 95.65% Lines, 100% Functions
+- **Charts & Telemetry Components:** 100% Lines, 100% Functions
+- **Error Boundary:** 100% Lines, 100% Functions
 - **Accessibility:** 5/5 WCAG 2.1 AA automated audits passing via `jest-axe`
 - **TypeScript:** Strict mode enabled (`noUncheckedIndexedAccess`, zero `any`)
-- **ESLint Status:** 0 warnings, 0 errors
+- **ESLint & Prettier:** 0 warnings, 0 errors, 100% formatted
 
 ---
 

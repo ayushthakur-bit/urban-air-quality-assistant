@@ -4,6 +4,7 @@ import { CityAirData } from '../types';
 import { getAQIColorHex, getAQIBadgeClasses } from '../constants/aqi';
 import { AQIRadialGauge } from './aqi/AQIRadialGauge';
 import { WeatherMetricsBar } from './aqi/WeatherMetricsBar';
+import { ResidentQuickActions } from './aqi/ResidentQuickActions';
 
 interface LiveAQICardProps {
   city: CityAirData;
@@ -50,7 +51,9 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
                     {city.name}, {city.country}
                   </h3>
                 </div>
-                <div className={`px-3 py-1 rounded-xl text-xs font-mono font-bold shadow-lg backdrop-blur-md ${getAQIBadgeClasses(city.category)}`}>
+                <div
+                  className={`px-3 py-1 rounded-xl text-xs font-mono font-bold shadow-lg backdrop-blur-md ${getAQIBadgeClasses(city.category)}`}
+                >
                   AQI {city.currentAqi}
                 </div>
               </div>
@@ -60,13 +63,19 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
           {/* Left Column: Semicircular Gauge */}
-          <AQIRadialGauge currentAqi={city.currentAqi} category={city.category} currentColor={currentColor} />
+          <AQIRadialGauge
+            currentAqi={city.currentAqi}
+            category={city.category}
+            currentColor={currentColor}
+          />
 
           {/* Right Column: Category Badge, City Info, and Weather Metrics */}
           <div className="flex-1 text-center lg:text-left space-y-4">
             <div>
               <div className="flex items-center justify-center lg:justify-start gap-2 mb-2 flex-wrap">
-                <div className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold shadow-sm ${getAQIBadgeClasses(city.category)}`}>
+                <div
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold shadow-sm ${getAQIBadgeClasses(city.category)}`}
+                >
                   <span className="w-2.5 h-2.5 rounded-full bg-current opacity-80" />
                   <span>{city.category}</span>
                 </div>
@@ -87,7 +96,9 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
               <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-text-primary)] flex items-center justify-center lg:justify-start gap-2">
                 <MapPin className="w-6 h-6 text-[#3b82f6]" />
                 <span>{city.name}</span>
-                <span className="text-base font-normal text-[var(--color-text-secondary)]">({city.country})</span>
+                <span className="text-base font-normal text-[var(--color-text-secondary)]">
+                  ({city.country})
+                </span>
               </h2>
 
               <p className="text-sm text-[var(--color-text-secondary)] mt-1 flex items-center justify-center lg:justify-start gap-1">
@@ -101,14 +112,22 @@ export const LiveAQICard: React.FC<LiveAQICardProps> = ({ city }) => {
             <div className="p-3.5 rounded-2xl bg-[var(--color-bg-base)] border border-[var(--color-border)] flex items-start gap-3 text-sm text-[var(--color-text-primary)]">
               <ShieldAlert className="w-5 h-5 shrink-0 text-[#3b82f6] mt-0.5" />
               <p className="leading-relaxed">
-                {city.category === 'Good' && 'Air quality is great! An ideal day for outdoor cardio, walks, and natural room ventilation.'}
-                {city.category === 'Moderate' && 'Air quality is acceptable. Very sensitive individuals may consider reducing prolonged outdoor exertion.'}
-                {city.category === 'Unhealthy for Sensitive Groups' && 'Children, seniors, and people with respiratory conditions should limit strenuous outdoor work.'}
-                {city.category === 'Unhealthy' && 'Everyone should reduce heavy outdoor exertion. Sensitive groups should wear N95 masks outdoors.'}
-                {city.category === 'Very Unhealthy' && 'Health warning: active children and adults should avoid all outdoor physical activities.'}
-                {city.category === 'Hazardous' && 'Emergency air alert: everyone should remain indoors with windows sealed and active HEPA air filtration.'}
+                {city.category === 'Good' &&
+                  'Air quality is great! An ideal day for outdoor cardio, walks, and natural room ventilation.'}
+                {city.category === 'Moderate' &&
+                  'Air quality is acceptable. Very sensitive individuals may consider reducing prolonged outdoor exertion.'}
+                {city.category === 'Unhealthy for Sensitive Groups' &&
+                  'Children, seniors, and people with respiratory conditions should limit strenuous outdoor work.'}
+                {city.category === 'Unhealthy' &&
+                  'Everyone should reduce heavy outdoor exertion. Sensitive groups should wear N95 masks outdoors.'}
+                {city.category === 'Very Unhealthy' &&
+                  'Health warning: active children and adults should avoid all outdoor physical activities.'}
+                {city.category === 'Hazardous' &&
+                  'Emergency air alert: everyone should remain indoors with windows sealed and active HEPA air filtration.'}
               </p>
             </div>
+
+            <ResidentQuickActions city={city} />
           </div>
         </div>
       </div>

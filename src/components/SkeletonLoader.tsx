@@ -2,8 +2,8 @@ import React from 'react';
 
 export const SkeletonLoader: React.FC = () => {
   return (
-    <div 
-      className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6 animate-pulse" 
+    <div
+      className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6 animate-pulse"
       role="status"
       aria-label="Loading air quality telemetry"
     >

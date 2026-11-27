@@ -8,7 +8,10 @@ interface InversionMetricCardsProps {
 }
 
 /** 3 Metric cards for morning smog ceiling, breakup window, and wind dispersion. */
-export const InversionMetricCards: React.FC<InversionMetricCardsProps> = ({ advisory, weather }) => {
+export const InversionMetricCards: React.FC<InversionMetricCardsProps> = ({
+  advisory,
+  weather
+}) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {/* Ceiling Box */}

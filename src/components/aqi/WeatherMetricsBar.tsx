@@ -23,7 +23,9 @@ export const WeatherMetricsBar: React.FC<WeatherMetricsBarProps> = ({ weather })
           <Droplets className="w-4 h-4 text-[#3b82f6]" />
           <span>Humidity</span>
         </div>
-        <span className="text-lg font-bold text-[var(--color-text-primary)]">{weather.humidity}%</span>
+        <span className="text-lg font-bold text-[var(--color-text-primary)]">
+          {weather.humidity}%
+        </span>
       </div>
 
       <div className="p-3 rounded-2xl bg-[var(--color-bg-base)] border border-[var(--color-border)] text-center">
@@ -31,7 +33,9 @@ export const WeatherMetricsBar: React.FC<WeatherMetricsBarProps> = ({ weather })
           <Wind className="w-4 h-4 text-[#3b82f6]" />
           <span>Wind</span>
         </div>
-        <span className="text-lg font-bold text-[var(--color-text-primary)]">{weather.windSpeed} km/h</span>
+        <span className="text-lg font-bold text-[var(--color-text-primary)]">
+          {weather.windSpeed} km/h
+        </span>
       </div>
     </div>
   );

@@ -92,7 +92,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               className="w-11 h-11 rounded-xl flex items-center justify-center border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] hover:border-[#3b82f6] transition-all focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
             >
-              {isDarkMode ? <Sun className="w-5 h-5 text-[#f59e0b] animate-spin-slow" /> : <Moon className="w-5 h-5 text-[#3b82f6]" />}
+              {isDarkMode ? (
+                <Sun className="w-5 h-5 text-[#f59e0b] animate-spin-slow" />
+              ) : (
+                <Moon className="w-5 h-5 text-[#3b82f6]" />
+              )}
             </button>
 
             <button
@@ -101,7 +105,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               className="md:hidden w-11 h-11 rounded-xl flex items-center justify-center border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] hover:border-[#3b82f6] transition-colors focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6 text-[var(--color-text-primary)]" /> : <Menu className="w-6 h-6 text-[var(--color-text-primary)]" />}
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6 text-[var(--color-text-primary)]" />
+              ) : (
+                <Menu className="w-6 h-6 text-[var(--color-text-primary)]" />
+              )}
             </button>
           </div>
         </div>
@@ -111,8 +119,14 @@ export const Navbar: React.FC<NavbarProps> = ({
         <MobileNavMenu
           navLinks={navLinks}
           onLinkClick={() => setMobileMenuOpen(false)}
-          onOpenAI={() => { setMobileMenuOpen(false); onOpenAI(); }}
-          onOpenAbout={() => { setMobileMenuOpen(false); onOpenAbout(); }}
+          onOpenAI={() => {
+            setMobileMenuOpen(false);
+            onOpenAI();
+          }}
+          onOpenAbout={() => {
+            setMobileMenuOpen(false);
+            onOpenAbout();
+          }}
         />
       )}
     </nav>

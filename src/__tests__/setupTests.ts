@@ -2,18 +2,20 @@
 
 if (typeof window !== 'undefined') {
   // Polyfill window.matchMedia
-  window.matchMedia = window.matchMedia || function (query: string) {
-    return {
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: () => {},
-      removeListener: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false
+  window.matchMedia =
+    window.matchMedia ||
+    function (query: string) {
+      return {
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: () => false
+      };
     };
-  };
 
   // Polyfill scrollIntoView on HTMLElement
   if (!window.HTMLElement.prototype.scrollIntoView) {

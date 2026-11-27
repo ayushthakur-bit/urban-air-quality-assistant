@@ -70,7 +70,8 @@ export const AIAssistantChat: React.FC<AIAssistantChatProps> = ({ city, isOpen, 
       const errorMsg: ChatMessage = {
         id: `err-${Date.now()}`,
         role: 'assistant',
-        content: '⚠️ I encountered an error communicating with the reasoning engine. Please try again.',
+        content:
+          '⚠️ I encountered an error communicating with the reasoning engine. Please try again.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -95,7 +96,10 @@ export const AIAssistantChat: React.FC<AIAssistantChatProps> = ({ city, isOpen, 
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 id="ai-advisor-title" className="font-bold text-base sm:text-lg text-[var(--color-text-primary)]">
+                <h3
+                  id="ai-advisor-title"
+                  className="font-bold text-base sm:text-lg text-[var(--color-text-primary)]"
+                >
                   AeroBot AI Smog Advisor
                 </h3>
                 <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30">

@@ -151,16 +151,37 @@ export class SmogAIService {
   /** Evaluates query keywords and returns targeted atmospheric reasoning response. */
   public static generateLocalReasoningResponse(prompt: string, city: CityAirData): AIResponse {
     const q = prompt.toLowerCase();
-    if (q.includes('inversion') || q.includes('window') || q.includes('ventilat') || q.includes('breakup')) {
+    if (
+      q.includes('inversion') ||
+      q.includes('window') ||
+      q.includes('ventilat') ||
+      q.includes('breakup')
+    ) {
       return generateInversionAdvice(city);
     }
-    if (q.includes('mask') || q.includes('respirator') || q.includes('n95') || q.includes('cloth')) {
+    if (
+      q.includes('mask') ||
+      q.includes('respirator') ||
+      q.includes('n95') ||
+      q.includes('cloth')
+    ) {
       return generateMaskAdvice(city);
     }
-    if (q.includes('purifier') || q.includes('diy') || q.includes('filter') || q.includes('corsi') || q.includes('hepa')) {
+    if (
+      q.includes('purifier') ||
+      q.includes('diy') ||
+      q.includes('filter') ||
+      q.includes('corsi') ||
+      q.includes('hepa')
+    ) {
       return generateIndoorHacksAdvice(city);
     }
-    if (q.includes('routine') || q.includes('emission') || q.includes('transit') || q.includes('commute')) {
+    if (
+      q.includes('routine') ||
+      q.includes('emission') ||
+      q.includes('transit') ||
+      q.includes('commute')
+    ) {
       return generateEmissionRoutineAdvice(city);
     }
     return generateGeneralDefenseAdvice(city);

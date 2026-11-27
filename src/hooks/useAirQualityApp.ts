@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import { CityAirData } from '../types';
 import { DEFAULT_FALLBACK_CITY } from '../data/cities';
 import { safeGetStorage, safeSetStorage } from '../utils/storage';
-import { validateCitySearchInput, findNearestCity, generateEstimatedCityData } from '../services/airQualityService';
+import {
+  validateCitySearchInput,
+  findNearestCity,
+  generateEstimatedCityData
+} from '../services/airQualityService';
 import { fetchLiveAirQuality, fetchLiveAirQualityByCoords } from '../services/openMeteoService';
 
 /**
@@ -44,9 +48,13 @@ export function useAirQualityApp() {
   useEffect(() => {
     let isMounted = true;
     fetchLiveAirQuality('Delhi')
-      .then((res) => { if (isMounted) setCurrentCity(res.data); })
+      .then((res) => {
+        if (isMounted) setCurrentCity(res.data);
+      })
       .catch(() => {});
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleSelectCity = async (city: CityAirData): Promise<void> => {
@@ -74,7 +82,11 @@ export function useAirQualityApp() {
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         try {
-          const result = await fetchLiveAirQualityByCoords(pos.coords.latitude, pos.coords.longitude, 'Detected Location');
+          const result = await fetchLiveAirQualityByCoords(
+            pos.coords.latitude,
+            pos.coords.longitude,
+            'Detected Location'
+          );
           setCurrentCity(result.data);
           if (result.errorMessage) setSearchError(result.errorMessage);
         } catch {
@@ -86,9 +98,11 @@ export function useAirQualityApp() {
       },
       (err) => {
         setIsLocating(false);
-        setSearchError(err.code === err.PERMISSION_DENIED
-          ? 'Location permission denied. Please select or search for your city manually.'
-          : 'Unable to detect GPS location. Please choose a city manually.');
+        setSearchError(
+          err.code === err.PERMISSION_DENIED
+            ? 'Location permission denied. Please select or search for your city manually.'
+            : 'Unable to detect GPS location. Please choose a city manually.'
+        );
       },
       { timeout: 8000 }
     );

@@ -1,9 +1,4 @@
-import {
-  CityAirData,
-  PollutantDetail,
-  HourlyForecast,
-  DailyForecast
-} from '../types';
+import { CityAirData, PollutantDetail, HourlyForecast, DailyForecast } from '../types';
 import { CITIES_DATABASE, DEFAULT_FALLBACK_CITY } from '../data/cities';
 import { getCategoryFromAQI, WHO_STANDARD_LIMITS } from '../constants/aqi';
 
@@ -143,7 +138,10 @@ export async function geocodeCityQuery(
   timeoutMs: number = 8000
 ): Promise<OpenMeteoGeocodingResult | null> {
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName.trim())}&count=1&language=en&format=json`;
-  const result = await fetchJsonWithTimeout<{ results?: OpenMeteoGeocodingResult[] }>(url, timeoutMs);
+  const result = await fetchJsonWithTimeout<{ results?: OpenMeteoGeocodingResult[] }>(
+    url,
+    timeoutMs
+  );
   if (!result.ok || !result.data?.results || result.data.results.length === 0) {
     return null;
   }
@@ -173,7 +171,9 @@ export function buildWeatherUrl(lat: number, lng: number): string {
 }
 
 /** Maps raw Open-Meteo current air measurements to typed PollutantDetail records. */
-function mapPollutants(current?: OpenMeteoAirQualityResponse['current']): CityAirData['pollutants'] {
+function mapPollutants(
+  current?: OpenMeteoAirQualityResponse['current']
+): CityAirData['pollutants'] {
   const pm25Val = Math.max(0, Math.round((current?.pm2_5 ?? 25) * 10) / 10);
   const pm10Val = Math.max(0, Math.round((current?.pm10 ?? 45) * 10) / 10);
   const no2Val = Math.max(0, Math.round((current?.nitrogen_dioxide ?? 22) * 10) / 10);
@@ -182,15 +182,69 @@ function mapPollutants(current?: OpenMeteoAirQualityResponse['current']): CityAi
   const o3Val = Math.max(0, Math.round((current?.ozone ?? 40) * 10) / 10);
 
   const getStatus = (val: number, limit: number): PollutantDetail['status'] =>
-    val <= limit ? 'Good' : val <= limit * 2 ? 'Moderate' : val <= limit * 3 ? 'Unhealthy' : 'Hazardous';
+    val <= limit
+      ? 'Good'
+      : val <= limit * 2
+        ? 'Moderate'
+        : val <= limit * 3
+          ? 'Unhealthy'
+          : 'Hazardous';
 
   return {
-    pm25: { code: 'PM2.5', name: 'Fine Particulate Matter', value: pm25Val, unit: 'µg/m³', status: getStatus(pm25Val, WHO_STANDARD_LIMITS.pm25), standardLimit: WHO_STANDARD_LIMITS.pm25, explanation: 'Fine respirable combustion particles penetrating deep into lungs.' },
-    pm10: { code: 'PM10', name: 'Coarse Particulate Matter', value: pm10Val, unit: 'µg/m³', status: getStatus(pm10Val, WHO_STANDARD_LIMITS.pm10), standardLimit: WHO_STANDARD_LIMITS.pm10, explanation: 'Inhalable dust, mechanical abrasion particles, and road grit.' },
-    no2: { code: 'NO2', name: 'Nitrogen Dioxide', value: no2Val, unit: 'µg/m³', status: getStatus(no2Val, WHO_STANDARD_LIMITS.no2), standardLimit: WHO_STANDARD_LIMITS.no2, explanation: 'Vehicle and power generation exhaust causing bronchial irritation.' },
-    so2: { code: 'SO2', name: 'Sulfur Dioxide', value: so2Val, unit: 'µg/m³', status: getStatus(so2Val, WHO_STANDARD_LIMITS.so2), standardLimit: WHO_STANDARD_LIMITS.so2, explanation: 'Industrial smelting and coal combustion gas causing throat tightness.' },
-    co: { code: 'CO', name: 'Carbon Monoxide', value: coVal, unit: 'mg/m³', status: getStatus(coVal, WHO_STANDARD_LIMITS.co), standardLimit: WHO_STANDARD_LIMITS.co, explanation: 'Incomplete fuel combustion gas impairing blood oxygenation.' },
-    o3: { code: 'O3', name: 'Ground-Level Ozone', value: o3Val, unit: 'µg/m³', status: getStatus(o3Val, WHO_STANDARD_LIMITS.o3), standardLimit: WHO_STANDARD_LIMITS.o3, explanation: 'Photochemical smog oxidant formed by sunlight reacting with VOCs.' }
+    pm25: {
+      code: 'PM2.5',
+      name: 'Fine Particulate Matter',
+      value: pm25Val,
+      unit: 'µg/m³',
+      status: getStatus(pm25Val, WHO_STANDARD_LIMITS.pm25),
+      standardLimit: WHO_STANDARD_LIMITS.pm25,
+      explanation: 'Fine respirable combustion particles penetrating deep into lungs.'
+    },
+    pm10: {
+      code: 'PM10',
+      name: 'Coarse Particulate Matter',
+      value: pm10Val,
+      unit: 'µg/m³',
+      status: getStatus(pm10Val, WHO_STANDARD_LIMITS.pm10),
+      standardLimit: WHO_STANDARD_LIMITS.pm10,
+      explanation: 'Inhalable dust, mechanical abrasion particles, and road grit.'
+    },
+    no2: {
+      code: 'NO2',
+      name: 'Nitrogen Dioxide',
+      value: no2Val,
+      unit: 'µg/m³',
+      status: getStatus(no2Val, WHO_STANDARD_LIMITS.no2),
+      standardLimit: WHO_STANDARD_LIMITS.no2,
+      explanation: 'Vehicle and power generation exhaust causing bronchial irritation.'
+    },
+    so2: {
+      code: 'SO2',
+      name: 'Sulfur Dioxide',
+      value: so2Val,
+      unit: 'µg/m³',
+      status: getStatus(so2Val, WHO_STANDARD_LIMITS.so2),
+      standardLimit: WHO_STANDARD_LIMITS.so2,
+      explanation: 'Industrial smelting and coal combustion gas causing throat tightness.'
+    },
+    co: {
+      code: 'CO',
+      name: 'Carbon Monoxide',
+      value: coVal,
+      unit: 'mg/m³',
+      status: getStatus(coVal, WHO_STANDARD_LIMITS.co),
+      standardLimit: WHO_STANDARD_LIMITS.co,
+      explanation: 'Incomplete fuel combustion gas impairing blood oxygenation.'
+    },
+    o3: {
+      code: 'O3',
+      name: 'Ground-Level Ozone',
+      value: o3Val,
+      unit: 'µg/m³',
+      status: getStatus(o3Val, WHO_STANDARD_LIMITS.o3),
+      standardLimit: WHO_STANDARD_LIMITS.o3,
+      explanation: 'Photochemical smog oxidant formed by sunlight reacting with VOCs.'
+    }
   };
 }
 
@@ -223,7 +277,20 @@ function mapDailyForecast(daily?: OpenMeteoAirQualityResponse['daily']): DailyFo
     return DEFAULT_FALLBACK_CITY.dailyForecast;
   }
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
 
   return daily.time.slice(0, 7).map((dateStr, i) => {
     const d = new Date(dateStr);
@@ -249,26 +316,65 @@ function mapDailyForecast(daily?: OpenMeteoAirQualityResponse['daily']): DailyFo
 function deriveHealthAdvice(aqi: number): CityAirData['healthAdvice'] {
   if (aqi <= 50) {
     return {
-      mask: { required: false, type: 'Mask Optional', advice: 'Air quality is satisfactory; clean ambient air.' },
-      exercise: { allowed: true, advice: 'Ideal conditions for outdoor running, workouts, and sports.' },
-      sensitiveGroups: { warning: false, advice: 'No special health precautions needed for sensitive groups.' },
-      ventilation: { openWindows: true, advice: 'Windows can be safely opened for natural room ventilation.' }
+      mask: {
+        required: false,
+        type: 'Mask Optional',
+        advice: 'Air quality is satisfactory; clean ambient air.'
+      },
+      exercise: {
+        allowed: true,
+        advice: 'Ideal conditions for outdoor running, workouts, and sports.'
+      },
+      sensitiveGroups: {
+        warning: false,
+        advice: 'No special health precautions needed for sensitive groups.'
+      },
+      ventilation: {
+        openWindows: true,
+        advice: 'Windows can be safely opened for natural room ventilation.'
+      }
     };
   }
   if (aqi <= 100) {
     return {
-      mask: { required: false, type: 'Mask Discretionary', advice: 'Acceptable quality; unusually sensitive people may feel irritation.' },
-      exercise: { allowed: true, advice: 'Outdoor exercise is generally safe for healthy individuals.' },
-      sensitiveGroups: { warning: true, advice: 'Asthma sufferers should carry quick-relief rescue inhalers.' },
-      ventilation: { openWindows: true, advice: 'Moderate ventilation is safe during mid-day hours.' }
+      mask: {
+        required: false,
+        type: 'Mask Discretionary',
+        advice: 'Acceptable quality; unusually sensitive people may feel irritation.'
+      },
+      exercise: {
+        allowed: true,
+        advice: 'Outdoor exercise is generally safe for healthy individuals.'
+      },
+      sensitiveGroups: {
+        warning: true,
+        advice: 'Asthma sufferers should carry quick-relief rescue inhalers.'
+      },
+      ventilation: {
+        openWindows: true,
+        advice: 'Moderate ventilation is safe during mid-day hours.'
+      }
     };
   }
   const isSevere = aqi > 200;
   return {
-    mask: { required: true, type: isSevere ? 'Certified N95 Mask Mandatory' : 'N95 Respirator Recommended', advice: 'Wear a well-fitted N95 mask outdoors to filter respirable soot.' },
-    exercise: { allowed: false, advice: 'Avoid intense outdoor cardio; exercise indoors with filtered air.' },
-    sensitiveGroups: { warning: true, advice: 'Children, seniors, and cardiopulmonary patients should remain indoors.' },
-    ventilation: { openWindows: false, advice: 'Keep windows closed; run HEPA air cleaners continuously.' }
+    mask: {
+      required: true,
+      type: isSevere ? 'Certified N95 Mask Mandatory' : 'N95 Respirator Recommended',
+      advice: 'Wear a well-fitted N95 mask outdoors to filter respirable soot.'
+    },
+    exercise: {
+      allowed: false,
+      advice: 'Avoid intense outdoor cardio; exercise indoors with filtered air.'
+    },
+    sensitiveGroups: {
+      warning: true,
+      advice: 'Children, seniors, and cardiopulmonary patients should remain indoors.'
+    },
+    ventilation: {
+      openWindows: false,
+      advice: 'Keep windows closed; run HEPA air cleaners continuously.'
+    }
   };
 }
 
@@ -305,7 +411,8 @@ function assembleLiveCityData(
       temp: Math.round(weatherData?.current?.temperature_2m ?? 24),
       humidity: Math.round(weatherData?.current?.relative_humidity_2m ?? 55),
       windSpeed: Math.round(weatherData?.current?.wind_speed_10m ?? 8),
-      condition: currentAqi > 200 ? 'Hazy Smog' : currentAqi > 100 ? 'Moderate Haze' : 'Clear Ambient'
+      condition:
+        currentAqi > 200 ? 'Hazy Smog' : currentAqi > 100 ? 'Moderate Haze' : 'Clear Ambient'
     },
     pollutants: mapPollutants(airData.current),
     hourlyTrend: mapHourlyTrend(airData.hourly, weatherData?.hourly),
@@ -347,7 +454,11 @@ export async function fetchLiveAirQuality(
 ): Promise<AirQualityFetchResult> {
   const cleanName = cityName.trim();
   if (!cleanName) {
-    return { data: getOfflineFallbackCity(), isLive: false, errorMessage: 'Empty city name provided.' };
+    return {
+      data: getOfflineFallbackCity(),
+      isLive: false,
+      errorMessage: 'Empty city name provided.'
+    };
   }
 
   if (!options.forceRefresh) {
@@ -406,11 +517,22 @@ export async function fetchLiveAirQualityByCoords(
     const msg = isRateLimited
       ? 'Open-Meteo telemetry rate limit reached. Displaying verified sample data.'
       : 'Live telemetry network unavailable. Displaying verified sample data.';
-    return { data: getOfflineFallbackCity(locationLabel), isLive: false, isRateLimited, errorMessage: msg };
+    return {
+      data: getOfflineFallbackCity(locationLabel),
+      isLive: false,
+      isRateLimited,
+      errorMessage: msg
+    };
   }
 
   const liveData = assembleLiveCityData(
-    { name: locationLabel, latitude: lat, longitude: lng, country: options.country, admin1: options.admin1 },
+    {
+      name: locationLabel,
+      latitude: lat,
+      longitude: lng,
+      country: options.country,
+      admin1: options.admin1
+    },
     airRes.data ?? {},
     weatherRes.data
   );

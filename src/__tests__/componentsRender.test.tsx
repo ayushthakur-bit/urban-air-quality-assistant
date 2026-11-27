@@ -92,19 +92,12 @@ describe('Comprehensive Component Coverage & Rendering Suite', () => {
 
   it('renders CityCards and switches city on click', () => {
     const handleSelect = vi.fn();
-    render(
-      <CityCards 
-        currentCityId={mockCity.id} 
-        onSelectCity={handleSelect} 
-      />
-    );
+    render(<CityCards currentCityId={mockCity.id} onSelectCity={handleSelect} />);
 
     expect(screen.getByText(/Monitored City Skylines/i)).toBeDefined();
     const mumbaiCard = screen.getByText('Mumbai');
     fireEvent.click(mumbaiCard);
-    expect(handleSelect).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 'mumbai' })
-    );
+    expect(handleSelect).toHaveBeenCalledWith(expect.objectContaining({ id: 'mumbai' }));
   });
 
   it('renders CausesOfPollution cards', () => {
@@ -156,13 +149,7 @@ describe('Comprehensive Component Coverage & Rendering Suite', () => {
 
   it('renders AIAssistantChat, sends prompt and handles API Key drawer', async () => {
     const handleClose = vi.fn();
-    render(
-      <AIAssistantChat 
-        city={mockCity} 
-        isOpen={true} 
-        onClose={handleClose} 
-      />
-    );
+    render(<AIAssistantChat city={mockCity} isOpen={true} onClose={handleClose} />);
 
     expect(screen.getByText(/AeroBot AI Smog Advisor/i)).toBeDefined();
 

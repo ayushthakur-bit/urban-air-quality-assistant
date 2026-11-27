@@ -27,13 +27,38 @@ export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({ city, on
     ventilationBreakupWindow: '13:00 - 15:00 (Breakup Window)',
     alertMessage: `Ground-level temperature inversion active in ${city.name} NCR. Smog ceiling trapped until 10:30 AM. Safe ventilation window opens at 13:00 - 15:00 (Breakup Window).`,
     lowEmissionRoutines: [
-      { title: 'Shift Morning Commute & Anti-Idling', timing: 'Before 09:00 AM or after 11:00 AM', impact: 'Reduces personal particulate inhalation by up to 48% and cuts idling emissions.', category: 'Transit' as const },
-      { title: 'Postpone High-Heat Indoor Searing & Frying', timing: 'Hold until 13:00 PM Breakup Window', impact: 'Prevents compounding indoor PM2.5 spikes while windows remain sealed.', category: 'Home' as const },
-      { title: 'Window Aeration Breakup Window', timing: '13:00 – 15:00 PM', impact: 'Solar thermal lift breaks inversion lid, allowing safe air exchange.', category: 'Ventilation' as const }
+      {
+        title: 'Shift Morning Commute & Anti-Idling',
+        timing: 'Before 09:00 AM or after 11:00 AM',
+        impact: 'Reduces personal particulate inhalation by up to 48% and cuts idling emissions.',
+        category: 'Transit' as const
+      },
+      {
+        title: 'Postpone High-Heat Indoor Searing & Frying',
+        timing: 'Hold until 13:00 PM Breakup Window',
+        impact: 'Prevents compounding indoor PM2.5 spikes while windows remain sealed.',
+        category: 'Home' as const
+      },
+      {
+        title: 'Window Aeration Breakup Window',
+        timing: '13:00 – 15:00 PM',
+        impact: 'Solar thermal lift breaks inversion lid, allowing safe air exchange.',
+        category: 'Ventilation' as const
+      }
     ],
     indoorHacks: [
-      { title: 'Dual-Layer HEPA + Activated Carbon Airlock', description: 'Position purifier centrally in bedroom with door threshold silicone sweeps installed.', impact: 'Lowers indoor PM2.5 from 325 µg/m³ to under 20 µg/m³ (94% exposure reduction).' },
-      { title: 'DIY Corsi-Rosenthal Box ($35–$45)', description: 'Four MERV-13 filters taped to a standard 20" box fan generates 450+ CFM clean air delivery.', impact: 'Achieves 5 air changes per hour (ACH) at a fraction of commercial costs.' }
+      {
+        title: 'Dual-Layer HEPA + Activated Carbon Airlock',
+        description:
+          'Position purifier centrally in bedroom with door threshold silicone sweeps installed.',
+        impact: 'Lowers indoor PM2.5 from 325 µg/m³ to under 20 µg/m³ (94% exposure reduction).'
+      },
+      {
+        title: 'DIY Corsi-Rosenthal Box ($35–$45)',
+        description:
+          'Four MERV-13 filters taped to a standard 20" box fan generates 450+ CFM clean air delivery.',
+        impact: 'Achieves 5 air changes per hour (ACH) at a fraction of commercial costs.'
+      }
     ]
   };
 
@@ -54,7 +79,9 @@ export const WinterSmogAdvisory: React.FC<WinterSmogAdvisoryProps> = ({ city, on
                 <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-500/30">
                   Severe Winter Smog Telemetry
                 </span>
-                <span className="text-xs text-[var(--color-text-secondary)] font-medium">{city.name} NCR</span>
+                <span className="text-xs text-[var(--color-text-secondary)] font-medium">
+                  {city.name} NCR
+                </span>
               </div>
               <h2 className="text-base sm:text-lg font-bold text-[var(--color-text-primary)] mt-1 tracking-tight">
                 {advisory.alertMessage}

@@ -32,20 +32,30 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAbout, onOpenCredits }) =>
                   <Wind className="w-4 h-4 text-[#60a5fa]" />
                 </div>
               </div>
-              <span className="text-lg font-bold text-[var(--color-text-primary)]">UrbanAir Assistant</span>
+              <span className="text-lg font-bold text-[var(--color-text-primary)]">
+                UrbanAir Assistant
+              </span>
             </div>
             <p className="text-xs text-[var(--color-text-secondary)] max-w-sm leading-relaxed">
-              Empowering urban residents, families, and communities with clear, actionable air quality telemetry, atmospheric science explanations, and preventive health guidance.
+              Empowering urban residents, families, and communities with clear, actionable air
+              quality telemetry, atmospheric science explanations, and preventive health guidance.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-primary)] mb-3">Navigation</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-primary)] mb-3">
+              Navigation
+            </h3>
             <ul className="space-y-2 text-xs">
               {NAV_LINKS.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="hover:text-[var(--color-text-primary)] transition-colors">{link.label}</a>
+                  <a
+                    href={link.href}
+                    className="hover:text-[var(--color-text-primary)] transition-colors"
+                  >
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -53,17 +63,36 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAbout, onOpenCredits }) =>
 
           {/* Data Sources */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-primary)] mb-3">Data Sources</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-primary)] mb-3">
+              Data Sources
+            </h3>
             <ul className="space-y-2 text-xs">
-              <li className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /><span>Open-Meteo Air Quality & Weather API</span></li>
-              <li className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /><span>US EPA AirNow Standard Scale</span></li>
-              <li className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /><span>WHO 2021 Reference Limits</span></li>
+              <li className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Open-Meteo Air Quality & Weather API</span>
+              </li>
+              <li className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>US EPA AirNow Standard Scale</span>
+              </li>
+              <li className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>WHO 2021 Reference Limits</span>
+              </li>
               <li className="pt-2 flex flex-col gap-1.5">
-                <button type="button" onClick={onOpenAbout} className="text-left text-[#2563eb] dark:text-[#60a5fa] hover:underline font-bold text-xs">
+                <button
+                  type="button"
+                  onClick={onOpenAbout}
+                  className="text-left text-[#2563eb] dark:text-[#60a5fa] hover:underline font-bold text-xs"
+                >
                   View AQI Scale Guide →
                 </button>
                 {onOpenCredits && (
-                  <button type="button" onClick={onOpenCredits} className="text-left text-[#2563eb] dark:text-[#60a5fa] hover:underline font-bold text-xs">
+                  <button
+                    type="button"
+                    onClick={onOpenCredits}
+                    className="text-left text-[#2563eb] dark:text-[#60a5fa] hover:underline font-bold text-xs"
+                  >
                     Image Credits & Attribution →
                   </button>
                 )}
@@ -74,7 +103,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAbout, onOpenCredits }) =>
 
         {/* Disclaimer */}
         <div className="pt-6 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--color-text-secondary)]">
-          <p>© {new Date().getFullYear()} UrbanAir Assistant. Designed for public health awareness.</p>
+          <p>
+            © {new Date().getFullYear()} UrbanAir Assistant. Designed for public health awareness.
+          </p>
           <p>Not intended as a replacement for emergency medical advice.</p>
         </div>
       </div>
